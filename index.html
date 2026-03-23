@@ -3669,6 +3669,23 @@ document.addEventListener('DOMContentLoaded', function() {
     <button onclick="saveProfile()" class="submit-btn">Save Changes</button>
   </div>
 </div>
+<!-- Firebase v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
 
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyBnQBSZoSI62MQ5XfZu7T6D5J_8KJDdw2M",
+  authDomain: "rentverse-e2194.firebaseapp.com",
+  projectId: "rentverse-e2194",
+  storageBucket: "rentverse-e2194.appspot.com",
+  messagingSenderId: "597310780435",
+  appId: "1:597310780435:web:ad0440070cc469edda3be6"
+};
+
+firebase.initializeApp(firebaseConfig);
+</script>
 </body>
 </html>
