@@ -560,8 +560,8 @@ img, iframe, svg { max-width:100%; }
     <li><a onclick="showPage('how');closeNav()" data-page="how">How It Works</a></li>
     <li><a onclick="showPage('about');closeNav()" data-page="about">About Us</a></li>
     <li><a onclick="showPage('contact');closeNav()" data-page="contact">Contact</a></li>
-    <li><a onclick="openModal('list');closeNav()">List Item</a></li>
-    <li id="navSignin"><a class="nav-cta" onclick="openModal('auth');closeNav()">Sign In</a></li>
+    <li><a onclick="openModal(&apos;list&apos;);closeNav()">List Item</a></li>
+    <li id="navSignin"><a class="nav-cta" onclick="openModal(&apos;auth&apos;);closeNav()">Sign In</a></li>
     <li id="navUserMenu" style="display:none;align-items:center;gap:0.8rem;">
       <a onclick="showMyAccount();closeNav()" style="display:flex;align-items:center;gap:6px;cursor:pointer;">
         <span style="width:30px;height:30px;background:linear-gradient(135deg,#4f8ef7,#a259ff);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.85rem;font-weight:700;color:#fff;">👤</span>
@@ -613,7 +613,7 @@ img, iframe, svg { max-width:100%; }
       <p>Find or list anything for rent &mdash; properties, vehicles, equipment, and more &mdash; all in one seamless platform trusted by thousands.</p>
       <div class="hero-actions">
         <button class="btn-primary" onclick="showPage('browse')">Browse Rentals</button>
-        <button class="btn-outline" onclick="openModal('list')">List Your Item</button>
+        <button class="btn-outline" onclick="openModal(&apos;list&apos;)">List Your Item</button>
       </div>
       <div class="hero-stats">
         <div class="stat"><h3>2,500+</h3><p>Active Listings</p></div>
@@ -952,7 +952,7 @@ img, iframe, svg { max-width:100%; }
   <div class="cta-section">
     <div class="cta-content"><h2>Have Something to Rent Out?</h2><p>Turn idle assets into income. List your property, vehicle, or equipment today &mdash; it's free.</p></div>
     <div class="cta-btns">
-      <button class="btn-primary" onclick="openModal('list')">List Your Item Free &rarr;</button>
+      <button class="btn-primary" onclick="openModal(&apos;list&apos;)">List Your Item Free &rarr;</button>
       <button class="btn-outline" onclick="showPage('contact')">Contact Us</button>
     </div>
   </div>
@@ -1153,7 +1153,7 @@ img, iframe, svg { max-width:100%; }
       <p style="color:var(--gray);margin-bottom:1.8rem;font-size:0.9rem;">Join 1,200+ users already renting smarter on RentVerse.</p>
       <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
         <button onclick="showPage('browse')" style="padding:0.8rem 2rem;background:linear-gradient(135deg,#4f8ef7,#a259ff);color:#fff;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;font-size:0.95rem;">&#128269; Browse Rentals</button>
-        <button onclick="openModal('list')" style="padding:0.8rem 2rem;background:rgba(255,255,255,0.06);border:1px solid rgba(120,160,255,0.3);color:#e0e8ff;border-radius:10px;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:0.95rem;">+ List Your Item</button>
+        <button onclick="openModal(&apos;list&apos;)" style="padding:0.8rem 2rem;background:rgba(255,255,255,0.06);border:1px solid rgba(120,160,255,0.3);color:#e0e8ff;border-radius:10px;font-family:'DM Sans',sans-serif;cursor:pointer;font-size:0.95rem;">+ List Your Item</button>
       </div>
     </div>
 
@@ -1570,7 +1570,7 @@ img, iframe, svg { max-width:100%; }
         <p id="accJoined" style="color:#7ab0ff;font-size:0.78rem;"></p>
       </div>
       <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
-        <button class="btn-primary" style="padding:0.6rem 1.4rem;font-size:0.88rem;" onclick="openModal('list')">+ List New Item</button>
+        <button class="btn-primary" style="padding:0.6rem 1.4rem;font-size:0.88rem;" onclick="openModal(&apos;list&apos;)">+ List New Item</button>
         <button class="btn-outline" style="padding:0.6rem 1.4rem;font-size:0.88rem;color:#e05050;border-color:#e05050;" onclick="deleteAccount()">Delete Account</button>
       </div>
     </div>
@@ -1595,7 +1595,7 @@ img, iframe, svg { max-width:100%; }
     <div style="margin-bottom:2rem;">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
         <h3 style="font-size:1.1rem;font-weight:700;">📦 My Listings</h3>
-        <button onclick="openModal('list')" style="background:none;border:1px solid rgba(79,142,247,0.3);color:#7ab0ff;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-family:'DM Sans',sans-serif;">+ Add New</button>
+        <button onclick="openModal(&apos;list&apos;)" style="background:none;border:1px solid rgba(79,142,247,0.3);color:#7ab0ff;padding:5px 14px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-family:'DM Sans',sans-serif;">+ Add New</button>
       </div>
       <div id="accListings" style="display:flex;flex-direction:column;gap:0.8rem;"></div>
     </div>
@@ -1660,7 +1660,7 @@ img, iframe, svg { max-width:100%; }
     <!-- Listings Tab -->
     <div id="ownerListingsTab" style="display:none;">
       <div style="display:flex;justify-content:flex-end;margin-bottom:1rem;">
-        <button class="btn-primary" style="padding:0.6rem 1.4rem;font-size:0.88rem;" onclick="openModal('list')">+ Add New Listing</button>
+        <button class="btn-primary" style="padding:0.6rem 1.4rem;font-size:0.88rem;" onclick="openModal(&apos;list&apos;)">+ Add New Listing</button>
       </div>
       <div id="ownerListingsList"></div>
     </div>
@@ -1678,7 +1678,7 @@ img, iframe, svg { max-width:100%; }
             <div style="font-size:0.75rem;color:var(--gray);margin-top:3px;">Pending</div>
           </div>
           <div style="text-align:center;padding:1rem;background:rgba(79,142,247,0.08);border-radius:10px;border:1px solid var(--border);">
-            <div style="font-size:1.4rem;font-weight:900;style="background:linear-gradient(135deg,#4f8ef7,#a259ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.4rem;font-weight:900;" id="payTotal">&#8377;0</div>
+            <div style="font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,#4f8ef7,#a259ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-size:1.4rem;font-weight:900; id="payTotal">&#8377;0</div>
             <div style="font-size:0.75rem;color:var(--gray);margin-top:3px;">Total Value</div>
           </div>
         </div>
@@ -2675,7 +2675,7 @@ function renderAccountPage() {
   document.getElementById('statEarning').textContent = '₹'+earning.toLocaleString('en-IN');
   const lGrid = document.getElementById('accListings');
   if(myListings.length===0){
-    lGrid.innerHTML='<p style="color:var(--gray);padding:1rem 0;">No listings yet. <span style="color:#00e5ff;cursor:pointer;" onclick="openModal('list')">List your first item →</span></p>';
+    lGrid.innerHTML='<p style="color:var(--gray);padding:1rem 0;">No listings yet. <span style="color:#00e5ff;cursor:pointer;" onclick="openModal(&apos;list&apos;)">List your first item →</span></p>';
   } else {
     lGrid.innerHTML = myListings.map(l=>`
       <div style="background:var(--navy);border:1px solid var(--border);border-radius:12px;padding:1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap;">
@@ -3102,7 +3102,7 @@ function shareItem(id) {
 }
 
 // ── NOTIFY ON BOOKING ──
-const _origSubmitBooking = window.submitBooking;
+_origSubmitBooking = window.submitBooking;
 
 // ════════════════════════════════════════════
 // ADMIN PANEL JS
@@ -3575,7 +3575,7 @@ function submitContactForm() {
   addNotification('Your message has been sent to RentVerse support.');
 
   // Auto WhatsApp option
-  const waText = encodeURIComponent(
+  waText = encodeURIComponent(
     '*New Message - RentVerse*\n\n'+
     '*Name:* '+name+'\n'+
     '*Phone:* '+phone+'\n'+
