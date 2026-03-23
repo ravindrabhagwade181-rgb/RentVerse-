@@ -3669,28 +3669,25 @@ document.addEventListener('DOMContentLoaded', function() {
     <button onclick="saveProfile()" class="submit-btn">Save Changes</button>
   </div>
 </div>
-    
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyBNqBSZoSI62MQ5XfZu7T6D5J_8KJDdw2M",
   authDomain: "rentverse-e2194.firebaseapp.com",
   projectId: "rentverse-e2194",
-  storageBucket: "rentverse-e2194.firebasestorage.app",
+  storageBucket: "rentverse-e2194.appspot.com",
   messagingSenderId: "597310780435",
-  appId: "1:597310780435:web:1825bd14d1b1c006da3be6",
-  measurementId: "G-TSV7ZLYDPG"
+  appId: "1:597310780435:web:1825bd14d1b1c006da3be6"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+console.log("Firebase Connected");
+</script>
 
 </body>
 </html>
