@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -36,6 +36,26 @@
 html, body { height:100%; background:var(--bg); color:var(--white); font-family:'Instrument Sans',sans-serif; overflow:hidden; }
 
 /* ══════════════════════════════════════
+   ANIMATIONS
+══════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes slideDown {
+  from { opacity:0; transform:translateY(-10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes pulse {
+  0%,100% { opacity:1; }
+  50%      { opacity:0.5; }
+}
+@keyframes shimmer {
+  0%   { background-position:-200% 0; }
+  100% { background-position:200% 0; }
+}
+
+/* ══════════════════════════════════════
    LAYOUT
 ══════════════════════════════════════ */
 .app { display:flex; height:100vh; overflow:hidden; }
@@ -54,7 +74,9 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   position: relative;
   overflow: hidden;
   transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+  z-index: 50;
 }
+.sidebar.collapsed { width: 68px; }
 
 .sidebar::before {
   content: '';
@@ -74,10 +96,11 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   flex-shrink: 0;
+  overflow: hidden;
 }
-
 .sidebar-logo svg { width:38px; height:38px; flex-shrink:0; filter:drop-shadow(0 2px 10px rgba(79,142,247,0.4)); }
-
+.logo-txt { overflow:hidden; transition:opacity 0.2s; white-space:nowrap; }
+.sidebar.collapsed .logo-txt { opacity:0; width:0; }
 .logo-txt .name {
   font-family: 'Cabinet Grotesk', sans-serif;
   font-weight: 800;
@@ -100,12 +123,16 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   gap: 10px;
   cursor: pointer;
   transition: all 0.2s;
+  overflow: hidden;
 }
 .sidebar-user:hover { background:rgba(79,142,247,0.1); border-color:var(--border2); }
 .user-av { width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,var(--blue),var(--purple)); display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+.user-inf { overflow:hidden; transition:opacity 0.2s,width 0.2s; white-space:nowrap; }
+.sidebar.collapsed .user-inf { opacity:0; width:0; }
 .user-inf strong { display:block; font-size:0.82rem; font-weight:600; color:var(--white); }
 .user-inf span { font-size:0.72rem; color:var(--lgray); }
 .user-badge { margin-left:auto; width:8px; height:8px; border-radius:50%; background:var(--green); flex-shrink:0; box-shadow:0 0 6px var(--green); }
+.sidebar.collapsed .user-badge { display:none; }
 
 /* Nav sections */
 .nav-section { padding: 0.6rem 0.8rem; flex:1; overflow-y:auto; overflow-x:hidden; }
@@ -113,7 +140,12 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
 .nav-section::-webkit-scrollbar-track { background:transparent; }
 .nav-section::-webkit-scrollbar-thumb { background:rgba(120,140,200,0.2); border-radius:4px; }
 
-.nav-label { font-size:0.6rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--gray); padding: 0.6rem 0.6rem 0.4rem; font-weight:600; }
+.nav-label {
+  font-size:0.6rem; letter-spacing:2.5px; text-transform:uppercase;
+  color:var(--gray); padding: 0.6rem 0.6rem 0.4rem; font-weight:600;
+  overflow:hidden; white-space:nowrap; transition:opacity 0.2s;
+}
+.sidebar.collapsed .nav-label { opacity:0; }
 
 .nav-item {
   display: flex;
@@ -142,12 +174,14 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   border-radius: 0 2px 2px 0;
 }
 .nav-icon { font-size:1.1rem; width:22px; text-align:center; flex-shrink:0; }
-.nav-txt { font-size:0.85rem; font-weight:500; color:var(--lgray); transition:color 0.2s; }
+.nav-txt { font-size:0.85rem; font-weight:500; color:var(--lgray); transition:color 0.2s,opacity 0.2s; }
 .nav-item.active .nav-txt { color:var(--white); font-weight:600; }
 .nav-item:hover .nav-txt { color:var(--white); }
-.nav-badge { margin-left:auto; background:linear-gradient(135deg,var(--blue),var(--purple)); color:#fff; font-size:0.65rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:20px; flex-shrink:0; }
+.sidebar.collapsed .nav-txt { opacity:0; }
+.nav-badge { margin-left:auto; background:linear-gradient(135deg,var(--blue),var(--purple)); color:#fff; font-size:0.65rem; font-weight:700; padding:0.15rem 0.45rem; border-radius:20px; flex-shrink:0; transition:opacity 0.2s; }
 .nav-badge.orange { background:var(--orange); }
-.nav-badge.green { background:var(--green); }
+.nav-badge.green  { background:var(--green); }
+.sidebar.collapsed .nav-badge { opacity:0; }
 
 /* Sidebar bottom */
 .sidebar-bottom {
@@ -155,7 +189,6 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   border-top: 1px solid var(--border);
   flex-shrink: 0;
 }
-
 .btn-list-item {
   width: 100%;
   padding: 0.75rem;
@@ -173,19 +206,17 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   gap: 8px;
   transition: all 0.2s;
   letter-spacing: 0.3px;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .btn-list-item:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(79,142,247,0.35); }
+.btn-list-txt { transition:opacity 0.2s,width 0.2s; }
+.sidebar.collapsed .btn-list-txt { opacity:0; width:0; overflow:hidden; }
 
 /* ══════════════════════════════════════
    MAIN AREA
 ══════════════════════════════════════ */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  min-width: 0;
-}
+.main { flex:1; display:flex; flex-direction:column; overflow:hidden; min-width:0; }
 
 /* ── TOPBAR ── */
 .topbar {
@@ -198,48 +229,42 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   gap: 1rem;
   flex-shrink: 0;
 }
-
 .topbar-left { display:flex; align-items:center; gap:1rem; flex:1; }
-
 .hamburger {
-  display: none;
   width: 36px; height: 36px;
   background: rgba(255,255,255,0.05);
   border: 1px solid var(--border);
   border-radius: 9px;
   cursor: pointer;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items:center; justify-content:center;
   font-size: 1.1rem;
   flex-shrink: 0;
+  transition: all 0.2s;
 }
-
+.hamburger:hover { background:rgba(255,255,255,0.1); }
 .page-title {
   font-family: 'Cabinet Grotesk', sans-serif;
   font-weight: 800;
   font-size: 1.15rem;
   color: var(--white);
 }
-
 .topbar-search {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  display: flex; align-items:center; gap:8px;
   background: rgba(255,255,255,0.04);
   border: 1px solid var(--border);
   border-radius: 10px;
   padding: 0.5rem 1rem;
   flex: 0 1 280px;
+  transition: border-color 0.2s;
 }
+.topbar-search:focus-within { border-color:var(--border2); }
 .topbar-search input {
   background: none; border: none; color: var(--white);
   font-family: 'Instrument Sans', sans-serif;
   font-size: 0.85rem; outline: none; width: 100%;
 }
 .topbar-search input::placeholder { color:var(--gray); }
-
 .topbar-right { display:flex; align-items:center; gap:0.6rem; margin-left:auto; }
-
 .topbar-btn {
   position: relative;
   width: 36px; height: 36px;
@@ -257,12 +282,20 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   width: 14px; height: 14px;
   border-radius: 50%;
   background: var(--red);
-  font-size: 0.55rem;
-  font-weight: 700;
-  color: #fff;
+  font-size: 0.55rem; font-weight: 700; color: #fff;
   display: flex; align-items:center; justify-content:center;
   border: 1.5px solid var(--bg);
 }
+.avatar-btn {
+  width: 34px; height: 34px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  display: flex; align-items:center; justify-content:center;
+  cursor: pointer; font-size:1rem;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+}
+.avatar-btn:hover { border-color:var(--blue); }
 
 /* ── CONTENT ── */
 .content {
@@ -271,7 +304,7 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.4rem;
 }
 .content::-webkit-scrollbar { width:6px; }
 .content::-webkit-scrollbar-track { background:transparent; }
@@ -290,6 +323,7 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   gap: 1.5rem;
   position: relative;
   overflow: hidden;
+  animation: fadeUp 0.4s ease both;
 }
 .welcome-banner::before {
   content: '';
@@ -299,12 +333,20 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   border-radius: 50%;
   background: radial-gradient(circle, rgba(79,142,247,0.1) 0%, transparent 70%);
 }
-.welcome-av { font-size: 3rem; flex-shrink:0; }
+.welcome-banner::after {
+  content: '';
+  position: absolute;
+  right: 60px; bottom: -40px;
+  width: 140px; height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(162,89,255,0.08) 0%, transparent 70%);
+}
+.welcome-av { font-size:3rem; flex-shrink:0; }
 .welcome-info { flex:1; min-width:0; }
 .welcome-info h2 { font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:1.4rem; margin-bottom:3px; }
 .welcome-info p { font-size:0.85rem; color:var(--lgray); }
 .welcome-info p span { color:var(--green); font-weight:600; }
-.welcome-actions { display:flex; gap:0.6rem; flex-shrink:0; }
+.welcome-actions { display:flex; gap:0.6rem; flex-shrink:0; position:relative; z-index:1; }
 .btn-sm {
   padding: 0.6rem 1.2rem;
   border-radius: 10px;
@@ -332,33 +374,31 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   overflow: hidden;
   transition: all 0.25s;
   animation: fadeUp 0.4s ease both;
+  cursor: pointer;
 }
 .stat-card:nth-child(1) { animation-delay:0.05s; }
 .stat-card:nth-child(2) { animation-delay:0.1s; }
 .stat-card:nth-child(3) { animation-delay:0.15s; }
 .stat-card:nth-child(4) { animation-delay:0.2s; }
 .stat-card:hover { border-color:var(--border2); transform:translateY(-2px); }
-.stat-card::after { content:''; position:absolute; inset:0; background:var(--glow,transparent); opacity:0; border-radius:18px; transition:opacity 0.3s; pointer-events:none; }
-.stat-card:hover::after { opacity:1; }
 
 .stat-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; }
 .stat-icon { width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.2rem; }
 .stat-change { font-size:0.72rem; font-weight:600; padding:0.2rem 0.5rem; border-radius:6px; }
-.stat-change.up { color:var(--green); background:rgba(0,208,132,0.12); }
-.stat-change.down { color:var(--red); background:rgba(255,68,102,0.12); }
-.stat-change.neu { color:var(--lgray); background:rgba(120,140,200,0.1); }
+.stat-change.up   { color:var(--green);  background:rgba(0,208,132,0.12); }
+.stat-change.down { color:var(--red);    background:rgba(255,68,102,0.12); }
+.stat-change.neu  { color:var(--lgray);  background:rgba(120,140,200,0.1); }
 
 .stat-val { font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:1.8rem; line-height:1; margin-bottom:4px; }
 .stat-lbl { font-size:0.78rem; color:var(--lgray); }
 
-/* Sparkline mini chart */
 .sparkline { height:32px; margin-top:0.8rem; }
 .sparkline svg { width:100%; height:100%; }
 
 /* ══════════════════════════════════════
-   TWO COLUMN GRID
+   GRID LAYOUTS
 ══════════════════════════════════════ */
-.two-col { display:grid; grid-template-columns:1.4fr 1fr; gap:1rem; }
+.two-col   { display:grid; grid-template-columns:1.4fr 1fr; gap:1rem; }
 .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; }
 
 /* ══════════════════════════════════════
@@ -375,15 +415,12 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
 .card-head {
   padding: 1.1rem 1.4rem;
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  display: flex; align-items:center; justify-content:space-between; gap:1rem;
 }
 .card-head-left { display:flex; align-items:center; gap:10px; }
 .card-head-icon { font-size:1.1rem; }
 .card-head h3 { font-family:'Cabinet Grotesk',sans-serif; font-weight:700; font-size:0.95rem; color:var(--white); }
-.card-head p { font-size:0.72rem; color:var(--lgray); margin-top:1px; }
+.card-head p   { font-size:0.72rem; color:var(--lgray); margin-top:1px; }
 .card-head-right { display:flex; align-items:center; gap:0.5rem; }
 
 .btn-tiny {
@@ -392,12 +429,10 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   border: 1px solid rgba(79,142,247,0.2);
   border-radius: 7px;
   color: var(--blue);
-  font-size: 0.73rem;
-  font-weight: 600;
+  font-size: 0.73rem; font-weight: 600;
   cursor: pointer;
   font-family: 'Instrument Sans', sans-serif;
-  transition: all 0.2s;
-  white-space: nowrap;
+  transition: all 0.2s; white-space:nowrap;
 }
 .btn-tiny:hover { background:rgba(79,142,247,0.2); }
 
@@ -421,32 +456,28 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
 
 .booking-emoji { width:40px; height:40px; border-radius:12px; background:rgba(79,142,247,0.1); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
 .booking-info strong { display:block; font-size:0.88rem; font-weight:600; color:var(--white); margin-bottom:2px; }
-.booking-info span { font-size:0.74rem; color:var(--lgray); }
+.booking-info span   { font-size:0.74rem; color:var(--lgray); }
 .booking-price { font-family:'Cabinet Grotesk',sans-serif; font-weight:700; font-size:0.9rem; color:var(--white); text-align:right; white-space:nowrap; }
 .booking-price small { display:block; font-size:0.68rem; color:var(--lgray); font-family:'Instrument Sans',sans-serif; font-weight:400; }
 
 .status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.7rem;
-  font-weight: 600;
+  display: inline-flex; align-items:center; gap:5px;
+  font-size: 0.7rem; font-weight: 600;
   padding: 0.25rem 0.65rem;
-  border-radius: 20px;
-  white-space: nowrap;
+  border-radius: 20px; white-space:nowrap;
 }
 .status-pill::before { content:''; width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-.status-pill.active { color:var(--green); background:rgba(0,208,132,0.1); border:1px solid rgba(0,208,132,0.2); }
-.status-pill.active::before { background:var(--green); box-shadow:0 0 5px var(--green); }
-.status-pill.pending { color:var(--orange); background:rgba(255,149,0,0.1); border:1px solid rgba(255,149,0,0.2); }
-.status-pill.pending::before { background:var(--orange); }
-.status-pill.returned { color:var(--lgray); background:rgba(120,140,200,0.08); border:1px solid rgba(120,140,200,0.15); }
-.status-pill.returned::before { background:var(--gray); }
-.status-pill.confirmed { color:var(--blue); background:rgba(79,142,247,0.1); border:1px solid rgba(79,142,247,0.2); }
+.status-pill.active    { color:var(--green);  background:rgba(0,208,132,0.1);    border:1px solid rgba(0,208,132,0.2);    }
+.status-pill.active::before    { background:var(--green);  box-shadow:0 0 5px var(--green); }
+.status-pill.pending   { color:var(--orange); background:rgba(255,149,0,0.1);    border:1px solid rgba(255,149,0,0.2);    }
+.status-pill.pending::before   { background:var(--orange); }
+.status-pill.returned  { color:var(--lgray);  background:rgba(120,140,200,0.08); border:1px solid rgba(120,140,200,0.15); }
+.status-pill.returned::before  { background:var(--gray); }
+.status-pill.confirmed { color:var(--blue);   background:rgba(79,142,247,0.1);   border:1px solid rgba(79,142,247,0.2);   }
 .status-pill.confirmed::before { background:var(--blue); }
 
 /* ══════════════════════════════════════
-   LISTINGS GRID (small cards)
+   LISTINGS GRID
 ══════════════════════════════════════ */
 .listing-cards { display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; padding:1rem; }
 
@@ -464,7 +495,7 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
 .listing-mini-emoji { font-size:1.8rem; }
 .listing-mini-menu { width:26px; height:26px; border-radius:7px; background:rgba(255,255,255,0.06); display:flex; align-items:center; justify-content:center; font-size:0.8rem; cursor:pointer; }
 .listing-mini strong { display:block; font-size:0.82rem; font-weight:600; color:var(--white); margin-bottom:3px; line-height:1.3; }
-.listing-mini-cat { font-size:0.7rem; color:var(--lgray); margin-bottom:0.7rem; }
+.listing-mini-cat  { font-size:0.7rem; color:var(--lgray); margin-bottom:0.7rem; }
 .listing-mini-foot { display:flex; justify-content:space-between; align-items:center; }
 .listing-mini-price { font-family:'Cabinet Grotesk',sans-serif; font-weight:700; font-size:0.88rem; }
 .listing-mini-price span { font-size:0.65rem; font-family:'Instrument Sans',sans-serif; font-weight:400; color:var(--lgray); }
@@ -476,30 +507,26 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
 .activity-list { padding: 0.6rem 1.2rem 1rem; }
 
 .activity-item {
-  display: flex;
-  gap: 12px;
+  display: flex; gap:12px;
   padding: 0.75rem 0;
   border-bottom: 1px solid rgba(99,130,230,0.07);
-  position: relative;
 }
-.activity-item:last-child { border-bottom: none; }
+.activity-item:last-child { border-bottom:none; }
 
 .activity-dot {
-  width: 32px; height: 32px;
-  border-radius: 10px;
-  display: flex; align-items:center; justify-content:center;
-  font-size: 0.9rem;
-  flex-shrink: 0;
-  margin-top: 2px;
+  width:32px; height:32px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.9rem; flex-shrink:0; margin-top:2px;
 }
-.activity-dot.blue { background:rgba(79,142,247,0.12); }
-.activity-dot.green { background:rgba(0,208,132,0.1); }
-.activity-dot.orange { background:rgba(255,149,0,0.1); }
-.activity-dot.purple { background:rgba(162,89,255,0.1); }
+.activity-dot.blue   { background:rgba(79,142,247,0.12); }
+.activity-dot.green  { background:rgba(0,208,132,0.1);   }
+.activity-dot.orange { background:rgba(255,149,0,0.1);   }
+.activity-dot.purple { background:rgba(162,89,255,0.1);  }
+.activity-dot.pink   { background:rgba(255,107,157,0.1); }
 
 .activity-body { flex:1; min-width:0; }
 .activity-body strong { display:block; font-size:0.82rem; color:var(--white); margin-bottom:1px; }
-.activity-body span { font-size:0.73rem; color:var(--lgray); }
+.activity-body span   { font-size:0.73rem; color:var(--lgray); }
 .activity-time { font-size:0.68rem; color:var(--gray); flex-shrink:0; margin-top:4px; }
 
 /* ══════════════════════════════════════
@@ -515,24 +542,18 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   text-align: center;
   cursor: pointer;
   transition: all 0.25s;
-  display: flex; flex-direction:column; align-items:center; gap:0.5rem;
+  display:flex; flex-direction:column; align-items:center; gap:0.5rem;
 }
 .qa-btn:hover { border-color:var(--border2); transform:translateY(-2px); background:rgba(79,142,247,0.06); }
-.qa-icon { font-size:1.6rem; }
+.qa-icon  { font-size:1.6rem; }
 .qa-label { font-size:0.75rem; color:var(--lgray); font-weight:500; line-height:1.3; }
 
 /* ══════════════════════════════════════
    EARNINGS CHART
 ══════════════════════════════════════ */
-.chart-area {
-  padding: 1.2rem 1.4rem;
-  height: 180px;
-  position: relative;
-}
-
+.chart-area { padding:1.2rem 1.4rem; height:200px; position:relative; }
 .chart-labels {
-  display: flex;
-  justify-content: space-between;
+  display:flex; justify-content:space-between;
   padding: 0.5rem 1.4rem 0;
 }
 .chart-labels span { font-size:0.68rem; color:var(--gray); }
@@ -540,23 +561,15 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
 /* ══════════════════════════════════════
    PROGRESS BARS
 ══════════════════════════════════════ */
-.progress-list { padding: 1rem 1.4rem; display:flex; flex-direction:column; gap:1rem; }
+.progress-list { padding:1rem 1.4rem; display:flex; flex-direction:column; gap:1rem; }
 
-.prog-item label { display:block; font-size:0.78rem; color:var(--lgray); margin-bottom:0.4rem; display:flex; justify-content:space-between; }
-.prog-item label span { color:var(--white); font-weight:600; }
-.prog-bar { height:6px; background:rgba(120,140,200,0.1); border-radius:10px; overflow:hidden; }
-.prog-fill { height:100%; border-radius:10px; transition:width 1s cubic-bezier(0.4,0,0.2,1); }
-
-/* ══════════════════════════════════════
-   EMPTY STATE
-══════════════════════════════════════ */
-.empty-state {
-  padding: 2rem;
-  text-align: center;
-  color: var(--gray);
+.prog-item label {
+  display:flex; justify-content:space-between;
+  font-size:0.78rem; color:var(--lgray); margin-bottom:0.4rem;
 }
-.empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 0.8rem; opacity:0.5; }
-.empty-state p { font-size: 0.85rem; color: var(--lgray); margin-bottom: 1rem; }
+.prog-item label span { color:var(--white); font-weight:600; }
+.prog-bar  { height:6px; background:rgba(120,140,200,0.1); border-radius:10px; overflow:hidden; }
+.prog-fill { height:100%; border-radius:10px; transition:width 1s cubic-bezier(0.4,0,0.2,1); }
 
 /* ══════════════════════════════════════
    NOTIFICATION PANEL
@@ -570,10 +583,777 @@ html, body { height:100%; background:var(--bg); color:var(--white); font-family:
   border: 1px solid var(--border2);
   border-radius: 18px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-  z-index: 100;
+  z-index: 200;
   display: none;
   overflow: hidden;
   animation: slideDown 0.25s ease;
 }
-.notif-panel.open { display: block; }
-@keyframes slideDown { from { opacity:0; transfor
+.notif-panel.open { display:block; }
+
+.notif-head {
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items:center; justify-content:space-between;
+}
+.notif-head h4 { font-family:'Cabinet Grotesk',sans-serif; font-weight:700; font-size:0.9rem; }
+.notif-clear { font-size:0.73rem; color:var(--blue); cursor:pointer; }
+.notif-clear:hover { text-decoration:underline; }
+
+.notif-list { max-height:340px; overflow-y:auto; }
+.notif-item {
+  display:flex; gap:10px;
+  padding:0.8rem 1.2rem;
+  border-bottom:1px solid rgba(99,130,230,0.07);
+  cursor:pointer; transition:background 0.15s;
+}
+.notif-item:last-child { border-bottom:none; }
+.notif-item:hover { background:rgba(255,255,255,0.02); }
+.notif-item.unread { background:rgba(79,142,247,0.04); }
+.notif-dot-wrap { position:relative; flex-shrink:0; }
+.notif-av { width:34px; height:34px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+.notif-unread-dot { position:absolute; top:-2px; right:-2px; width:8px; height:8px; border-radius:50%; background:var(--blue); border:1.5px solid var(--card); }
+.notif-body strong { display:block; font-size:0.8rem; color:var(--white); margin-bottom:2px; }
+.notif-body span   { font-size:0.72rem; color:var(--lgray); }
+.notif-time { font-size:0.67rem; color:var(--gray); margin-top:3px; white-space:nowrap; }
+
+/* ══════════════════════════════════════
+   OVERLAY (mobile sidebar)
+══════════════════════════════════════ */
+.overlay {
+  display:none;
+  position:fixed; inset:0;
+  background:rgba(0,0,0,0.6);
+  z-index:40;
+  backdrop-filter:blur(2px);
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media(max-width:1100px) {
+  .stats-grid { grid-template-columns:repeat(2,1fr); }
+  .two-col    { grid-template-columns:1fr; }
+}
+@media(max-width:780px) {
+  .sidebar {
+    position: fixed; left:0; top:0;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+    z-index: 60;
+  }
+  .sidebar.mobile-open { transform:translateX(0); width:var(--sidebar) !important; }
+  .sidebar.mobile-open ~ .overlay { display:block; }
+  .hamburger { display:flex !important; }
+  .stats-grid { grid-template-columns:1fr 1fr; }
+  .quick-actions { grid-template-columns:repeat(2,1fr); }
+  .topbar-search { display:none; }
+  .welcome-actions { display:none; }
+}
+@media(max-width:480px) {
+  .stats-grid { grid-template-columns:1fr; }
+  .listing-cards { grid-template-columns:1fr; }
+  .three-col { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ════════════ SIDEBAR ════════════ -->
+  <aside class="sidebar" id="sidebar">
+    <!-- Logo -->
+    <div class="sidebar-logo" onclick="toggleSidebar()">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="url(#sg)"/>
+        <path d="M10 28V16l10-6 10 6v12l-10 6-10-6z" fill="none" stroke="white" stroke-width="1.5" stroke-linejoin="round"/>
+        <path d="M20 10v18M10 16l10 6 10-6" stroke="white" stroke-width="1.5" stroke-linejoin="round" opacity="0.6"/>
+        <defs>
+          <linearGradient id="sg" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#4f8ef7"/>
+            <stop offset="1" stop-color="#a259ff"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="logo-txt">
+        <div class="name"><span class="r">Rent</span><span class="v">Verse</span></div>
+        <div class="tag">Peer to Peer Rentals</div>
+      </div>
+    </div>
+
+    <!-- User -->
+    <div class="sidebar-user">
+      <div class="user-av">🧑</div>
+      <div class="user-inf">
+        <strong>Arjun Mehta</strong>
+        <span>Pro Lender · Mumbai</span>
+      </div>
+      <div class="user-badge"></div>
+    </div>
+
+    <!-- Nav -->
+    <div class="nav-section">
+      <div class="nav-label">Main</div>
+      <div class="nav-item active">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-txt">Dashboard</span>
+      </div>
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">📦</span>
+        <span class="nav-txt">My Listings</span>
+        <span class="nav-badge">12</span>
+      </div>
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">📅</span>
+        <span class="nav-txt">Bookings</span>
+        <span class="nav-badge orange">3</span>
+      </div>
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">💬</span>
+        <span class="nav-txt">Messages</span>
+        <span class="nav-badge">5</span>
+      </div>
+
+      <div class="nav-label" style="margin-top:0.6rem;">Finance</div>
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">💰</span>
+        <span class="nav-txt">Earnings</span>
+      </div>
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">📊</span>
+        <span class="nav-txt">Analytics</span>
+      </div>
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">🏦</span>
+        <span class="nav-txt">Payouts</span>
+        <span class="nav-badge green">New</span>
+      </div>
+
+      <div class="nav-label" style="margin-top:0.6rem;">Account</div>
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">⭐</span>
+        <span class="nav-txt">Reviews</span>
+      </div>
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">🛡️</span>
+        <span class="nav-txt">Insurance</span>
+      </div>
+      <div class="nav-item" onclick="setActive(this)">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-txt">Settings</span>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="sidebar-bottom">
+      <button class="btn-list-item">
+        <span>➕</span>
+        <span class="btn-list-txt">List New Item</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Mobile overlay -->
+  <div class="overlay" id="overlay" onclick="closeMobileSidebar()"></div>
+
+  <!-- ════════════ MAIN ════════════ -->
+  <div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <div class="hamburger" id="hamburger" onclick="toggleMobileSidebar()">☰</div>
+        <span class="page-title">Dashboard</span>
+        <div class="topbar-search">
+          <span style="color:var(--gray); font-size:0.9rem;">🔍</span>
+          <input type="text" placeholder="Search listings, bookings…">
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-btn" title="Notifications" onclick="toggleNotif()">
+          🔔
+          <div class="badge" id="notifBadge">4</div>
+        </div>
+        <div class="topbar-btn" title="Favourites">❤️</div>
+        <div class="topbar-btn" title="Help">❓</div>
+        <div class="avatar-btn" title="Profile">🧑</div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content" id="content">
+
+      <!-- Welcome banner -->
+      <div class="welcome-banner">
+        <div class="welcome-av">👋</div>
+        <div class="welcome-info">
+          <h2>Good morning, Arjun!</h2>
+          <p>You have <span>3 active bookings</span> and <span style="color:var(--blue);">2 new messages</span> today.</p>
+        </div>
+        <div class="welcome-actions">
+          <button class="btn-sm primary" onclick="alert('Opening quick list form…')">+ Quick List</button>
+          <button class="btn-sm ghost">View Calendar</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <!-- Revenue -->
+        <div class="stat-card" style="--glow: radial-gradient(ellipse at top left, rgba(79,142,247,0.06), transparent)">
+          <div class="stat-top">
+            <div class="stat-icon" style="background:rgba(79,142,247,0.12);">💵</div>
+            <span class="stat-change up">↑ 18.4%</span>
+          </div>
+          <div class="stat-val">₹48,320</div>
+          <div class="stat-lbl">Total Earnings (30d)</div>
+          <div class="sparkline">
+            <svg viewBox="0 0 120 32" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="sg1" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#4f8ef7" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#4f8ef7" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,26 L15,22 L30,20 L45,24 L60,16 L75,10 L90,8 L105,4 L120,2" fill="none" stroke="#4f8ef7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M0,26 L15,22 L30,20 L45,24 L60,16 L75,10 L90,8 L105,4 L120,2 L120,32 L0,32Z" fill="url(#sg1)"/>
+            </svg>
+          </div>
+        </div>
+        <!-- Active rentals -->
+        <div class="stat-card" style="--glow: radial-gradient(ellipse at top left, rgba(0,208,132,0.06), transparent)">
+          <div class="stat-top">
+            <div class="stat-icon" style="background:rgba(0,208,132,0.1);">📦</div>
+            <span class="stat-change up">↑ 3</span>
+          </div>
+          <div class="stat-val" style="color:var(--green);">12</div>
+          <div class="stat-lbl">Active Rentals</div>
+          <div class="sparkline">
+            <svg viewBox="0 0 120 32" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="sg2" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#00d084" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#00d084" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,28 L20,24 L40,26 L60,18 L80,14 L100,10 L120,6" fill="none" stroke="#00d084" stroke-width="2" stroke-linecap="round"/>
+              <path d="M0,28 L20,24 L40,26 L60,18 L80,14 L100,10 L120,6 L120,32 L0,32Z" fill="url(#sg2)"/>
+            </svg>
+          </div>
+        </div>
+        <!-- Pending -->
+        <div class="stat-card" style="--glow: radial-gradient(ellipse at top left, rgba(255,149,0,0.06), transparent)">
+          <div class="stat-top">
+            <div class="stat-icon" style="background:rgba(255,149,0,0.1);">⏳</div>
+            <span class="stat-change down">↓ 1</span>
+          </div>
+          <div class="stat-val" style="color:var(--orange);">5</div>
+          <div class="stat-lbl">Pending Approvals</div>
+          <div class="sparkline">
+            <svg viewBox="0 0 120 32" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="sg3" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#ff9500" stop-opacity="0.3"/>
+                  <stop offset="100%" stop-color="#ff9500" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,10 L20,14 L40,8 L60,16 L80,10 L100,14 L120,8" fill="none" stroke="#ff9500" stroke-width="2" stroke-linecap="round"/>
+              <path d="M0,10 L20,14 L40,8 L60,16 L80,10 L100,14 L120,8 L120,32 L0,32Z" fill="url(#sg3)"/>
+            </svg>
+          </div>
+        </div>
+        <!-- Rating -->
+        <div class="stat-card" style="--glow: radial-gradient(ellipse at top left, rgba(255,214,10,0.06), transparent)">
+          <div class="stat-top">
+            <div class="stat-icon" style="background:rgba(255,214,10,0.1);">⭐</div>
+            <span class="stat-change neu">→ 0.0</span>
+          </div>
+          <div class="stat-val" style="color:var(--yellow);">4.9</div>
+          <div class="stat-lbl">Avg. Renter Rating</div>
+          <div class="sparkline">
+            <svg viewBox="0 0 120 32" preserveAspectRatio="none">
+              <path d="M0,12 L20,10 L40,11 L60,9 L80,8 L100,9 L120,8" fill="none" stroke="#ffd60a" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row: Bookings + Listings -->
+      <div class="two-col">
+
+        <!-- Recent Bookings -->
+        <div class="section-card" style="animation-delay:0.1s">
+          <div class="card-head">
+            <div class="card-head-left">
+              <span class="card-head-icon">📅</span>
+              <div>
+                <h3>Recent Bookings</h3>
+                <p>Last 7 days · 8 bookings</p>
+              </div>
+            </div>
+            <div class="card-head-right">
+              <button class="btn-tiny">View All</button>
+            </div>
+          </div>
+          <div class="booking-list">
+            <div class="booking-item">
+              <div class="booking-emoji">🎥</div>
+              <div class="booking-info">
+                <strong>Sony A7III Camera</strong>
+                <span>Rahul Gupta · 3 days</span>
+              </div>
+              <span class="status-pill active">Active</span>
+              <div class="booking-price">₹2,400<small>/day</small></div>
+            </div>
+            <div class="booking-item">
+              <div class="booking-emoji">🏕️</div>
+              <div class="booking-info">
+                <strong>Camping Tent (4P)</strong>
+                <span>Priya Sharma · 2 days</span>
+              </div>
+              <span class="status-pill confirmed">Confirmed</span>
+              <div class="booking-price">₹600<small>/day</small></div>
+            </div>
+            <div class="booking-item">
+              <div class="booking-emoji">🛵</div>
+              <div class="booking-info">
+                <strong>Royal Enfield Scooter</strong>
+                <span>Ankit Verma · 1 week</span>
+              </div>
+              <span class="status-pill active">Active</span>
+              <div class="booking-price">₹800<small>/day</small></div>
+            </div>
+            <div class="booking-item">
+              <div class="booking-emoji">🎸</div>
+              <div class="booking-info">
+                <strong>Fender Stratocaster</strong>
+                <span>Dev Patel · 4 days</span>
+              </div>
+              <span class="status-pill pending">Pending</span>
+              <div class="booking-price">₹400<small>/day</small></div>
+            </div>
+            <div class="booking-item">
+              <div class="booking-emoji">🏂</div>
+              <div class="booking-info">
+                <strong>Snowboard Set</strong>
+                <span>Neha Singh · 5 days</span>
+              </div>
+              <span class="status-pill returned">Returned</span>
+              <div class="booking-price">₹1,200<small>/day</small></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- My Listings -->
+        <div class="section-card" style="animation-delay:0.15s">
+          <div class="card-head">
+            <div class="card-head-left">
+              <span class="card-head-icon">📦</span>
+              <div>
+                <h3>My Listings</h3>
+                <p>12 active · 2 paused</p>
+              </div>
+            </div>
+            <div class="card-head-right">
+              <button class="btn-tiny">Manage</button>
+            </div>
+          </div>
+          <div class="listing-cards">
+            <div class="listing-mini">
+              <div class="listing-mini-top">
+                <div class="listing-mini-emoji">🎥</div>
+                <div class="listing-mini-menu">⋯</div>
+              </div>
+              <strong>Sony A7III Camera</strong>
+              <div class="listing-mini-cat">📸 Photography</div>
+              <div class="listing-mini-foot">
+                <div class="listing-mini-price" style="color:var(--blue);">₹2,400<span>/day</span></div>
+                <div class="listing-mini-views">👁 142 views</div>
+              </div>
+            </div>
+            <div class="listing-mini">
+              <div class="listing-mini-top">
+                <div class="listing-mini-emoji">🛵</div>
+                <div class="listing-mini-menu">⋯</div>
+              </div>
+              <strong>Royal Enfield Classic</strong>
+              <div class="listing-mini-cat">🚗 Vehicles</div>
+              <div class="listing-mini-foot">
+                <div class="listing-mini-price" style="color:var(--green);">₹800<span>/day</span></div>
+                <div class="listing-mini-views">👁 98 views</div>
+              </div>
+            </div>
+            <div class="listing-mini">
+              <div class="listing-mini-top">
+                <div class="listing-mini-emoji">🎸</div>
+                <div class="listing-mini-menu">⋯</div>
+              </div>
+              <strong>Fender Stratocaster</strong>
+              <div class="listing-mini-cat">🎵 Music</div>
+              <div class="listing-mini-foot">
+                <div class="listing-mini-price" style="color:var(--purple);">₹400<span>/day</span></div>
+                <div class="listing-mini-views">👁 76 views</div>
+              </div>
+            </div>
+            <div class="listing-mini">
+              <div class="listing-mini-top">
+                <div class="listing-mini-emoji">🏕️</div>
+                <div class="listing-mini-menu">⋯</div>
+              </div>
+              <strong>4-Person Camping Tent</strong>
+              <div class="listing-mini-cat">🌲 Outdoor</div>
+              <div class="listing-mini-foot">
+                <div class="listing-mini-price" style="color:var(--cyan);">₹600<span>/day</span></div>
+                <div class="listing-mini-views">👁 54 views</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row: Earnings chart + Category performance -->
+      <div class="two-col">
+
+        <!-- Earnings chart -->
+        <div class="section-card" style="animation-delay:0.2s">
+          <div class="card-head">
+            <div class="card-head-left">
+              <span class="card-head-icon">📈</span>
+              <div>
+                <h3>Earnings Overview</h3>
+                <p>Last 6 months</p>
+              </div>
+            </div>
+            <div class="card-head-right">
+              <button class="btn-tiny" id="chartToggle" onclick="toggleChartView()">Monthly</button>
+            </div>
+          </div>
+          <div class="chart-area">
+            <canvas id="earningsChart"></canvas>
+          </div>
+          <div class="chart-labels" id="chartLabels">
+            <span>Oct</span><span>Nov</span><span>Dec</span>
+            <span>Jan</span><span>Feb</span><span>Mar</span>
+          </div>
+        </div>
+
+        <!-- Category performance -->
+        <div class="section-card" style="animation-delay:0.25s">
+          <div class="card-head">
+            <div class="card-head-left">
+              <span class="card-head-icon">🏆</span>
+              <div>
+                <h3>Category Performance</h3>
+                <p>Bookings by type</p>
+              </div>
+            </div>
+          </div>
+          <div class="progress-list">
+            <div class="prog-item">
+              <label>📸 Photography <span>38%</span></label>
+              <div class="prog-bar"><div class="prog-fill" style="width:38%; background:linear-gradient(90deg,var(--blue),var(--cyan))"></div></div>
+            </div>
+            <div class="prog-item">
+              <label>🚗 Vehicles <span>27%</span></label>
+              <div class="prog-bar"><div class="prog-fill" style="width:27%; background:linear-gradient(90deg,var(--green),#00ffaa)"></div></div>
+            </div>
+            <div class="prog-item">
+              <label>🎵 Music <span>18%</span></label>
+              <div class="prog-bar"><div class="prog-fill" style="width:18%; background:linear-gradient(90deg,var(--purple),var(--pink))"></div></div>
+            </div>
+            <div class="prog-item">
+              <label>🌲 Outdoor <span>11%</span></label>
+              <div class="prog-bar"><div class="prog-fill" style="width:11%; background:linear-gradient(90deg,var(--cyan),var(--blue))"></div></div>
+            </div>
+            <div class="prog-item">
+              <label>🏠 Home & Tools <span>6%</span></label>
+              <div class="prog-bar"><div class="prog-fill" style="width:6%; background:linear-gradient(90deg,var(--orange),var(--yellow))"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Row: Quick Actions + Activity Feed -->
+      <div class="two-col">
+
+        <!-- Quick Actions + Activity -->
+        <div class="section-card" style="animation-delay:0.3s">
+          <div class="card-head">
+            <div class="card-head-left">
+              <span class="card-head-icon">⚡</span>
+              <div><h3>Quick Actions</h3></div>
+            </div>
+          </div>
+          <div class="quick-actions">
+            <div class="qa-btn" onclick="alert('Add listing…')">
+              <div class="qa-icon">➕</div>
+              <div class="qa-label">Add Listing</div>
+            </div>
+            <div class="qa-btn" onclick="alert('View calendar…')">
+              <div class="qa-icon">📅</div>
+              <div class="qa-label">Availability</div>
+            </div>
+            <div class="qa-btn" onclick="alert('Generate report…')">
+              <div class="qa-icon">📊</div>
+              <div class="qa-label">Run Report</div>
+            </div>
+            <div class="qa-btn" onclick="alert('Request payout…')">
+              <div class="qa-icon">🏦</div>
+              <div class="qa-label">Payout</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="section-card" style="animation-delay:0.35s">
+          <div class="card-head">
+            <div class="card-head-left">
+              <span class="card-head-icon">🕒</span>
+              <div>
+                <h3>Recent Activity</h3>
+                <p>Live updates</p>
+              </div>
+            </div>
+            <div class="card-head-right">
+              <button class="btn-tiny">See All</button>
+            </div>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot green">✅</div>
+              <div class="activity-body">
+                <strong>Booking confirmed — Tent</strong>
+                <span>Priya Sharma booked your Camping Tent</span>
+              </div>
+              <div class="activity-time">2m ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot blue">💬</div>
+              <div class="activity-body">
+                <strong>New message from Ankit</strong>
+                <span>"Can I pick up the scooter at 9am?"</span>
+              </div>
+              <div class="activity-time">18m ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot orange">⏳</div>
+              <div class="activity-body">
+                <strong>Approval needed — Guitar</strong>
+                <span>Dev Patel requested Fender Strat for 4 days</span>
+              </div>
+              <div class="activity-time">1h ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot purple">⭐</div>
+              <div class="activity-body">
+                <strong>New review — 5 stars</strong>
+                <span>Rohit left a review for Sony A7III</span>
+              </div>
+              <div class="activity-time">3h ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot pink">💰</div>
+              <div class="activity-body">
+                <strong>Payout processed</strong>
+                <span>₹12,400 deposited to your bank</span>
+              </div>
+              <div class="activity-time">Yesterday</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- end content -->
+  </div><!-- end main -->
+</div><!-- end app -->
+
+<!-- ════════════ NOTIFICATION PANEL ════════════ -->
+<div class="notif-panel" id="notifPanel">
+  <div class="notif-head">
+    <h4>🔔 Notifications</h4>
+    <span class="notif-clear" onclick="clearNotifs()">Mark all read</span>
+  </div>
+  <div class="notif-list" id="notifList">
+    <div class="notif-item unread">
+      <div class="notif-dot-wrap">
+        <div class="notif-av" style="background:rgba(0,208,132,0.1);">✅</div>
+        <div class="notif-unread-dot"></div>
+      </div>
+      <div class="notif-body">
+        <strong>Booking Confirmed</strong>
+        <span>Priya confirmed the Camping Tent for 2 days</span>
+        <div class="notif-time">2 min ago</div>
+      </div>
+    </div>
+    <div class="notif-item unread">
+      <div class="notif-dot-wrap">
+        <div class="notif-av" style="background:rgba(79,142,247,0.1);">💬</div>
+        <div class="notif-unread-dot"></div>
+      </div>
+      <div class="notif-body">
+        <strong>Message from Ankit</strong>
+        <span>"Can I pick up the scooter at 9am?"</span>
+        <div class="notif-time">18 min ago</div>
+      </div>
+    </div>
+    <div class="notif-item unread">
+      <div class="notif-dot-wrap">
+        <div class="notif-av" style="background:rgba(255,149,0,0.1);">⏳</div>
+        <div class="notif-unread-dot"></div>
+      </div>
+      <div class="notif-body">
+        <strong>Approval Needed</strong>
+        <span>Dev Patel requested your Fender Stratocaster</span>
+        <div class="notif-time">1 hr ago</div>
+      </div>
+    </div>
+    <div class="notif-item">
+      <div class="notif-av" style="background:rgba(162,89,255,0.1);">⭐</div>
+      <div class="notif-body">
+        <strong>New 5-Star Review</strong>
+        <span>Rohit reviewed your Sony A7III Camera</span>
+        <div class="notif-time">3 hr ago</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════ SIDEBAR TOGGLE ═══════════ */
+function toggleSidebar() {
+  const sb = document.getElementById('sidebar');
+  sb.classList.toggle('collapsed');
+}
+function toggleMobileSidebar() {
+  const sb = document.getElementById('sidebar');
+  sb.classList.toggle('mobile-open');
+}
+function closeMobileSidebar() {
+  document.getElementById('sidebar').classList.remove('mobile-open');
+}
+
+/* ═══════════ NAV ACTIVE ═══════════ */
+function setActive(el) {
+  document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ═══════════ NOTIFICATIONS ═══════════ */
+function toggleNotif() {
+  document.getElementById('notifPanel').classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  const panel = document.getElementById('notifPanel');
+  const btn   = e.target.closest('.topbar-btn');
+  if (!panel.contains(e.target) && !btn) {
+    panel.classList.remove('open');
+  }
+});
+function clearNotifs() {
+  document.querySelectorAll('.notif-item').forEach(i => i.classList.remove('unread'));
+  document.querySelectorAll('.notif-unread-dot').forEach(d => d.remove());
+  document.getElementById('notifBadge').style.display = 'none';
+}
+
+/* ═══════════ EARNINGS CHART (Canvas) ═══════════ */
+let chartView = 'monthly';
+const monthlyData = [18200, 22400, 31000, 27800, 38400, 48320];
+const weeklyData  = [5200, 9800, 7600, 11200, 13400, 12100, 14800];
+const monthLabels = ['Oct','Nov','Dec','Jan','Feb','Mar'];
+const weekLabels  = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+function drawChart(data, labels) {
+  const canvas = document.getElementById('earningsChart');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const W = rect.width - 28; // padding
+  const H = 160;
+  canvas.width  = W * dpr;
+  canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = { l: 10, r: 10, t: 10, b: 10 };
+  const n   = data.length;
+  const maxV = Math.max(...data) * 1.1;
+  const xs   = data.map((_, i) => pad.l + (i / (n - 1)) * (W - pad.l - pad.r));
+  const ys   = data.map(v => pad.t + (1 - v / maxV) * (H - pad.t - pad.b));
+
+  // Grid lines
+  for (let i = 0; i <= 4; i++) {
+    const y = pad.t + (i / 4) * (H - pad.t - pad.b);
+    ctx.beginPath();
+    ctx.moveTo(pad.l, y); ctx.lineTo(W - pad.r, y);
+    ctx.strokeStyle = 'rgba(99,130,230,0.08)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  // Area gradient
+  const grad = ctx.createLinearGradient(0, pad.t, 0, H);
+  grad.addColorStop(0, 'rgba(79,142,247,0.25)');
+  grad.addColorStop(1, 'rgba(79,142,247,0)');
+  ctx.beginPath();
+  ctx.moveTo(xs[0], ys[0]);
+  for (let i = 1; i < n; i++) {
+    const cx = (xs[i-1] + xs[i]) / 2;
+    ctx.bezierCurveTo(cx, ys[i-1], cx, ys[i], xs[i], ys[i]);
+  }
+  ctx.lineTo(xs[n-1], H - pad.b);
+  ctx.lineTo(xs[0],   H - pad.b);
+  ctx.closePath();
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Line
+  const lineGrad = ctx.createLinearGradient(xs[0], 0, xs[n-1], 0);
+  lineGrad.addColorStop(0, '#4f8ef7');
+  lineGrad.addColorStop(1, '#a259ff');
+  ctx.beginPath();
+  ctx.moveTo(xs[0], ys[0]);
+  for (let i = 1; i < n; i++) {
+    const cx = (xs[i-1] + xs[i]) / 2;
+    ctx.bezierCurveTo(cx, ys[i-1], cx, ys[i], xs[i], ys[i]);
+  }
+  ctx.strokeStyle = lineGrad;
+  ctx.lineWidth = 2.5;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // Dots
+  xs.forEach((x, i) => {
+    ctx.beginPath();
+    ctx.arc(x, ys[i], 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#a259ff';
+    ctx.fill();
+    ctx.strokeStyle = '#070a12';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  // Update labels
+  const labelsEl = document.getElementById('chartLabels');
+  labelsEl.innerHTML = labels.map(l => `<span>${l}</span>`).join('');
+}
+
+function toggleChartView() {
+  chartView = chartView === 'monthly' ? 'weekly' : 'monthly';
+  const btn = document.getElementById('chartToggle');
+  btn.textContent = chartView === 'monthly' ? 'Monthly' : 'Weekly';
+  if (chartView === 'monthly') drawChart(monthlyData, monthLabels);
+  else drawChart(weeklyData, weekLabels);
+}
+
+// Init chart after layout settles
+window.addEventListener('load', () => setTimeout(() => drawChart(monthlyData, monthLabels), 100));
+window.addEventListener('resize', () => {
+  if (chartView === 'monthly') drawChart(monthlyData, monthLabels);
+  else drawChart(weeklyData, weekLabels);
+});
+</script>
+</body>
+</html>
