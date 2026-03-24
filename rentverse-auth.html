@@ -5,36 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RentVerse — Sign In</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-  /* ===== CLICK FIX GLOBAL ===== */
-body * {
-  pointer-events: auto;
-}
-
-.bg,
-.bg-mesh,
-.bg-grid,
-.orbit {
-  pointer-events: none !important;
-  z-index: -1 !important;
-}
-
-.container,
-.brand-panel,
-.auth-panel,
-.auth-card {
-  position: relative;
-  z-index: 10 !important;
-}
-
-  .bg, .bg-mesh, .bg-grid, .orbit {
-  pointer-events: none;
-}
-
-.container {
-  position: relative;
-  z-index: 5;
-}
+<style>
 /* ── RESET ── */
 *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
@@ -78,7 +49,12 @@ html, body {
     radial-gradient(ellipse 60% 40% at 80% 80%, rgba(162,89,255,0.1) 0%, transparent 60%),
     radial-gradient(ellipse 40% 60% at 50% 50%, rgba(0,229,255,0.05) 0%, transparent 70%);
 }
-
+.bg,
+.bg-mesh,
+.bg-grid,
+.orbit {
+  pointer-events: none;
+}
 .bg-grid {
   position: absolute;
   inset: 0;
@@ -402,6 +378,7 @@ html, body {
   font-size: 0.95rem;
   outline: none;
   transition: all 0.25s;
+  appearance: none;
   -webkit-appearance: none;
 }
 
@@ -991,12 +968,12 @@ html, body {
         </div>
 
         <div class="otp-grid" id="otpGrid">
-          <input class="otp-box" type="number" maxlength="1" id="o1" oninput="otpInput(this,1)" onkeydown="otpKey(event,1)">
-          <input class="otp-box" type="number" maxlength="1" id="o2" oninput="otpInput(this,2)" onkeydown="otpKey(event,2)">
-          <input class="otp-box" type="number" maxlength="1" id="o3" oninput="otpInput(this,3)" onkeydown="otpKey(event,3)">
-          <input class="otp-box" type="number" maxlength="1" id="o4" oninput="otpInput(this,4)" onkeydown="otpKey(event,4)">
-          <input class="otp-box" type="number" maxlength="1" id="o5" oninput="otpInput(this,5)" onkeydown="otpKey(event,5)">
-          <input class="otp-box" type="number" maxlength="1" id="o6" oninput="otpInput(this,6)" onkeydown="otpKey(event,6)">
+          <input class="otp-box" type="text" maxlength="1" id="o1" oninput="otpInput(this,1)" onkeydown="otpKey(event,1)">
+          <input class="otp-box" type="text" maxlength="1" id="o2" oninput="otpInput(this,2)" onkeydown="otpKey(event,2)">
+          <input class="otp-box" type="text" maxlength="1" id="o3" oninput="otpInput(this,3)" onkeydown="otpKey(event,3)">
+          <input class="otp-box" type="text" maxlength="1" id="o4" oninput="otpInput(this,4)" onkeydown="otpKey(event,4)">
+          <input class="otp-box" type="text" maxlength="1" id="o5" oninput="otpInput(this,5)" onkeydown="otpKey(event,5)">
+          <input class="otp-box" type="text" maxlength="1" id="o6" oninput="otpInput(this,6)" onkeydown="otpKey(event,6)">
         </div>
 
         <div class="otp-timer" id="otpTimerWrap">
@@ -1398,7 +1375,12 @@ function toggleSignup() {
 // GO HOME
 // ════════════════════════════════════
 function goHome() {
-  window.location.href = "rentverse.html";
+  // In production: window.location.href = 'rentverse.html'
+  showToastMsg('Redirecting to dashboard...', 'success');
+  setTimeout(() => {
+    // window.location.href = 'rentverse.html';
+    showToastMsg('Production mein rentverse.html par redirect hoga!', 'info', 4000);
+  }, 1000);
 }
 
 // ════════════════════════════════════
@@ -1431,7 +1413,5 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 </script>
- 
 </body>
 </html>
-
