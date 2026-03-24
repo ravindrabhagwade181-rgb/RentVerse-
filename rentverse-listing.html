@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -29,6 +29,9 @@
 
 html,body { min-height:100vh; background:var(--bg); color:var(--white); font-family:'Instrument Sans',sans-serif; }
 
+@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+@keyframes spin   { to{transform:rotate(360deg)} }
+
 /* ── BG ── */
 .bg-fx {
   position:fixed; inset:0; z-index:0; pointer-events:none;
@@ -38,7 +41,9 @@ html,body { min-height:100vh; background:var(--bg); color:var(--white); font-fam
 }
 .bg-grid {
   position:fixed; inset:0; z-index:0; pointer-events:none;
-  background-image: linear-gradient(rgba(79,142,247,0.035) 1px,transparent 1px), linear-gradient(90deg,rgba(79,142,247,0.035) 1px,transparent 1px);
+  background-image:
+    linear-gradient(rgba(79,142,247,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79,142,247,0.035) 1px, transparent 1px);
   background-size:52px 52px;
   mask-image:radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
 }
@@ -46,23 +51,22 @@ html,body { min-height:100vh; background:var(--bg); color:var(--white); font-fam
 /* ── TOPBAR ── */
 .topbar {
   position:sticky; top:0; z-index:100;
-  background:rgba(7,10,18,0.85);
+  background:rgba(7,10,18,0.88);
   backdrop-filter:blur(20px);
   border-bottom:1px solid var(--bdr);
-  padding:0 1.5rem;
-  height:60px;
+  padding:0 1.5rem; height:60px;
   display:flex; align-items:center; justify-content:space-between;
 }
 .topbar-left { display:flex; align-items:center; gap:14px; }
 .back-btn {
   width:36px; height:36px;
   background:rgba(255,255,255,0.05);
-  border:1px solid var(--bdr);
-  border-radius:10px;
+  border:1px solid var(--bdr); border-radius:10px;
   display:flex; align-items:center; justify-content:center;
-  cursor:pointer; font-size:1rem; transition:all 0.2s; text-decoration:none; color:var(--white);
+  cursor:pointer; font-size:1rem; transition:all 0.2s;
+  text-decoration:none; color:var(--white);
 }
-.back-btn:hover { background:rgba(255,255,255,0.1); }
+.back-btn:hover { background:rgba(255,255,255,0.1); border-color:var(--bdr2); }
 .page-title { font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:1.1rem; }
 .topbar-right { display:flex; align-items:center; gap:0.6rem; }
 
@@ -72,368 +76,292 @@ html,body { min-height:100vh; background:var(--bg); color:var(--white); font-fam
 /* ── VIEW TOGGLE ── */
 .view-toggle {
   display:flex; gap:4px;
-  background:var(--surf);
-  border:1px solid var(--bdr);
-  border-radius:12px;
-  padding:4px;
-  margin-bottom:1.5rem;
+  background:var(--surf); border:1px solid var(--bdr);
+  border-radius:12px; padding:4px; margin-bottom:1.5rem;
 }
 .vtab {
-  flex:1; padding:0.65rem 1rem;
-  border-radius:9px;
-  font-family:'Cabinet Grotesk',sans-serif;
-  font-weight:700; font-size:0.88rem;
-  cursor:pointer; border:none;
-  background:transparent; color:var(--lgray);
+  flex:1; padding:0.65rem 1rem; border-radius:9px;
+  font-family:'Cabinet Grotesk',sans-serif; font-weight:700; font-size:0.88rem;
+  cursor:pointer; border:none; background:transparent; color:var(--lgray);
   transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:7px;
 }
 .vtab.active {
   background:linear-gradient(135deg,rgba(79,142,247,0.18),rgba(162,89,255,0.12));
-  color:var(--white);
-  border:1px solid rgba(79,142,247,0.25);
+  color:var(--white); border:1px solid rgba(79,142,247,0.25);
 }
 .vtab-count {
-  background:rgba(79,142,247,0.2);
-  color:var(--blue);
+  background:rgba(79,142,247,0.2); color:var(--blue);
   font-size:0.68rem; font-weight:700;
-  padding:0.15rem 0.45rem;
-  border-radius:20px;
+  padding:0.15rem 0.45rem; border-radius:20px;
 }
 
 /* ── STATS ROW ── */
 .stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; margin-bottom:1.5rem; }
 .stat-mini {
-  background:var(--card);
-  border:1px solid var(--bdr);
-  border-radius:16px;
-  padding:1.1rem;
+  background:var(--card); border:1px solid var(--bdr);
+  border-radius:16px; padding:1.1rem;
   display:flex; align-items:center; gap:12px;
   animation:fadeUp 0.4s ease both;
 }
-.stat-mini:nth-child(1){animation-delay:0.05s;}
-.stat-mini:nth-child(2){animation-delay:0.1s;}
-.stat-mini:nth-child(3){animation-delay:0.15s;}
-.stat-mini:nth-child(4){animation-delay:0.2s;}
-@keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+.stat-mini:nth-child(1){animation-delay:0.05s}
+.stat-mini:nth-child(2){animation-delay:0.1s}
+.stat-mini:nth-child(3){animation-delay:0.15s}
+.stat-mini:nth-child(4){animation-delay:0.2s}
 .stat-mini-icon { width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0; }
-.stat-mini-val { font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:1.4rem; line-height:1; }
-.stat-mini-lbl { font-size:0.72rem; color:var(--lgray); margin-top:2px; }
+.stat-mini-val  { font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.4rem;line-height:1; }
+.stat-mini-lbl  { font-size:0.72rem;color:var(--lgray);margin-top:2px; }
 
 /* ── SECTION ── */
 .section {
-  background:var(--card);
-  border:1px solid var(--bdr);
-  border-radius:20px;
-  overflow:hidden;
+  background:var(--card); border:1px solid var(--bdr);
+  border-radius:20px; overflow:hidden;
   animation:fadeUp 0.4s ease both;
 }
-
 .sec-head {
-  padding:1.2rem 1.5rem;
-  border-bottom:1px solid var(--bdr);
-  display:flex; align-items:center; justify-content:space-between; gap:1rem;
+  padding:1.2rem 1.5rem; border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
 }
-.sec-head-l { display:flex; align-items:center; gap:10px; }
+.sec-head-l { display:flex;align-items:center;gap:10px; }
 .sec-head-icon { font-size:1.1rem; }
-.sec-head h2 { font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:1rem; }
-.sec-head p { font-size:0.73rem; color:var(--lgray); margin-top:1px; }
+.sec-head h2 { font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1rem; }
+.sec-head p  { font-size:0.73rem;color:var(--lgray);margin-top:1px; }
 
 /* ── BUTTONS ── */
 .btn {
-  padding:0.65rem 1.3rem;
-  border-radius:10px;
-  font-family:'Cabinet Grotesk',sans-serif;
-  font-weight:700; font-size:0.85rem;
-  cursor:pointer; border:none;
-  transition:all 0.2s; display:inline-flex; align-items:center; gap:6px;
-  white-space:nowrap;
+  padding:0.65rem 1.3rem; border-radius:10px;
+  font-family:'Cabinet Grotesk',sans-serif; font-weight:700; font-size:0.85rem;
+  cursor:pointer; border:none; transition:all 0.2s;
+  display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
 }
 .btn-primary { background:linear-gradient(135deg,var(--blue),var(--purple)); color:#fff; }
-.btn-primary:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(79,142,247,0.3); }
-.btn-ghost { background:rgba(255,255,255,0.05); color:var(--lgray); border:1px solid var(--bdr); }
-.btn-ghost:hover { background:rgba(255,255,255,0.09); color:var(--white); }
+.btn-primary:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 6px 20px rgba(79,142,247,0.3); }
+.btn-primary:disabled { opacity:0.5; cursor:not-allowed; transform:none!important; }
+.btn-ghost  { background:rgba(255,255,255,0.05); color:var(--lgray); border:1px solid var(--bdr); }
+.btn-ghost:hover  { background:rgba(255,255,255,0.09); color:var(--white); }
 .btn-danger { background:rgba(255,68,102,0.1); color:var(--red); border:1px solid rgba(255,68,102,0.2); }
 .btn-danger:hover { background:rgba(255,68,102,0.2); }
 .btn-sm { padding:0.4rem 0.8rem; font-size:0.75rem; }
 
 /* ── LISTINGS GRID ── */
 .listings-grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:1rem;
-  padding:1.2rem;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:1rem; padding:1.2rem;
 }
-
 .listing-card {
-  background:var(--card2);
-  border:1px solid var(--bdr);
-  border-radius:16px;
-  overflow:hidden;
-  transition:all 0.25s;
-  animation:fadeUp 0.4s ease both;
-  position:relative;
+  background:var(--card2); border:1px solid var(--bdr);
+  border-radius:16px; overflow:hidden;
+  transition:all 0.25s; animation:fadeUp 0.4s ease both; position:relative;
 }
 .listing-card:hover { border-color:var(--bdr2); transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,0.3); }
-
 .listing-card-img {
   height:130px;
   background:linear-gradient(135deg,rgba(79,142,247,0.1),rgba(162,89,255,0.08));
   display:flex; align-items:center; justify-content:center;
-  font-size:3.5rem;
-  position:relative;
-  overflow:hidden;
+  font-size:3.5rem; position:relative; overflow:hidden;
 }
 .listing-card-img::after {
-  content:'';
-  position:absolute; inset:0;
+  content:''; position:absolute; inset:0;
   background:linear-gradient(to bottom, transparent 50%, rgba(7,10,18,0.8));
 }
-
 .listing-status-badge {
   position:absolute; top:10px; right:10px;
-  padding:0.22rem 0.6rem;
-  border-radius:20px;
-  font-size:0.68rem; font-weight:700;
-  z-index:1;
+  padding:0.22rem 0.6rem; border-radius:20px;
+  font-size:0.68rem; font-weight:700; z-index:1;
 }
-.status-active { background:rgba(0,208,132,0.15); color:var(--green); border:1px solid rgba(0,208,132,0.25); }
+.status-active   { background:rgba(0,208,132,0.15); color:var(--green); border:1px solid rgba(0,208,132,0.25); }
 .status-inactive { background:rgba(120,140,200,0.1); color:var(--lgray); border:1px solid rgba(120,140,200,0.2); }
-.status-pending { background:rgba(255,149,0,0.12); color:var(--orange); border:1px solid rgba(255,149,0,0.2); }
-
-.listing-card-body { padding:1rem; }
-.listing-card-title { font-family:'Cabinet Grotesk',sans-serif; font-weight:700; font-size:0.95rem; margin-bottom:4px; line-height:1.3; }
-.listing-card-cat { font-size:0.73rem; color:var(--lgray); margin-bottom:0.8rem; display:flex; align-items:center; gap:5px; }
-.listing-card-meta { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.9rem; }
-.listing-price { font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:1.05rem; color:var(--blue); }
-.listing-price span { font-size:0.65rem; color:var(--lgray); font-family:'Instrument Sans',sans-serif; font-weight:400; }
-.listing-views { font-size:0.72rem; color:var(--gray); }
+.listing-card-body   { padding:1rem; }
+.listing-card-title  { font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:4px;line-height:1.3; }
+.listing-card-cat    { font-size:0.73rem;color:var(--lgray);margin-bottom:0.8rem;display:flex;align-items:center;gap:5px; }
+.listing-card-meta   { display:flex;justify-content:space-between;align-items:center;margin-bottom:0.9rem; }
+.listing-price       { font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.05rem;color:var(--blue); }
+.listing-price span  { font-size:0.65rem;color:var(--lgray);font-family:'Instrument Sans',sans-serif;font-weight:400; }
+.listing-views       { font-size:0.72rem;color:var(--gray); }
 .listing-card-actions { display:flex; gap:6px; }
 .listing-card-actions .btn { flex:1; justify-content:center; }
 
 /* ── FILTER BAR ── */
-.filter-bar {
-  display:flex; gap:0.6rem; padding:0 1.2rem 1rem; flex-wrap:wrap; align-items:center;
-}
+.filter-bar { display:flex;gap:0.6rem;padding:0 1.2rem 1rem;flex-wrap:wrap;align-items:center; }
 .filter-pill {
-  padding:0.4rem 0.9rem;
-  border-radius:20px;
-  font-size:0.78rem; font-weight:600;
-  cursor:pointer; border:none;
-  background:rgba(255,255,255,0.05);
-  color:var(--lgray);
-  transition:all 0.2s;
+  padding:0.4rem 0.9rem; border-radius:20px;
+  font-size:0.78rem; font-weight:600; cursor:pointer; border:none;
+  background:rgba(255,255,255,0.05); color:var(--lgray); transition:all 0.2s;
 }
 .filter-pill.active { background:rgba(79,142,247,0.15); color:var(--blue); border:1px solid rgba(79,142,247,0.25); }
-.filter-pill:hover { background:rgba(255,255,255,0.08); color:var(--white); }
+.filter-pill:hover  { background:rgba(255,255,255,0.08); color:var(--white); }
 .search-box {
   display:flex; align-items:center; gap:8px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid var(--bdr);
-  border-radius:10px;
-  padding:0.4rem 0.9rem;
-  flex:1; min-width:180px;
+  background:rgba(255,255,255,0.04); border:1px solid var(--bdr);
+  border-radius:10px; padding:0.4rem 0.9rem;
+  flex:1; min-width:180px; transition:border-color 0.2s;
 }
-.search-box input { background:none; border:none; color:var(--white); font-family:'Instrument Sans',sans-serif; font-size:0.85rem; outline:none; width:100%; }
+.search-box:focus-within { border-color:var(--bdr2); }
+.search-box input { background:none;border:none;color:var(--white);font-family:'Instrument Sans',sans-serif;font-size:0.85rem;outline:none;width:100%; }
 .search-box input::placeholder { color:var(--gray); }
 
 /* ── EMPTY STATE ── */
-.empty-state {
-  text-align:center; padding:3rem 1.5rem; color:var(--gray);
-}
-.empty-icon { font-size:3rem; margin-bottom:0.8rem; opacity:0.5; }
-.empty-state h3 { font-family:'Cabinet Grotesk',sans-serif; font-weight:700; font-size:1.1rem; color:var(--lgray); margin-bottom:0.4rem; }
-.empty-state p { font-size:0.85rem; color:var(--gray); margin-bottom:1.2rem; line-height:1.6; }
+.empty-state { text-align:center;padding:3rem 1.5rem;color:var(--gray); }
+.empty-icon   { font-size:3rem;margin-bottom:0.8rem;opacity:0.5; }
+.empty-state h3 { font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:var(--lgray);margin-bottom:0.4rem; }
+.empty-state p  { font-size:0.85rem;color:var(--gray);margin-bottom:1.2rem;line-height:1.6; }
 
-/* ══════════════════════════════════════
-   ADD LISTING FORM
-══════════════════════════════════════ */
+/* ── ADD VIEW ── */
 #addView { display:none; }
 
 .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; padding:1.5rem; }
-.form-grid.single { grid-template-columns:1fr; }
-.form-col { display:flex; flex-direction:column; gap:1.2rem; }
-
+.form-col  { display:flex; flex-direction:column; gap:1.2rem; }
 .form-group { display:flex; flex-direction:column; gap:0.5rem; }
-.form-group label {
-  font-size:0.78rem; font-weight:600; color:var(--lgray);
-  letter-spacing:0.3px; display:flex; align-items:center; gap:5px;
-}
+.form-group label { font-size:0.78rem;font-weight:600;color:var(--lgray);letter-spacing:0.3px;display:flex;align-items:center;gap:5px; }
 .form-group label .req { color:var(--pink); }
 
 .form-control {
-  width:100%;
-  padding:0.82rem 1rem;
+  width:100%; padding:0.82rem 1rem;
   background:rgba(255,255,255,0.04);
-  border:1.5px solid var(--bdr);
-  border-radius:12px;
-  color:var(--white);
-  font-family:'Instrument Sans',sans-serif;
-  font-size:0.92rem; outline:none;
-  transition:all 0.25s;
-  -webkit-appearance:none;
+  border:1.5px solid var(--bdr); border-radius:12px;
+  color:var(--white); font-family:'Instrument Sans',sans-serif;
+  font-size:0.92rem; outline:none; transition:all 0.25s;
+  -webkit-appearance:none; appearance:none;
 }
 .form-control::placeholder { color:rgba(82,93,117,0.8); }
 .form-control:focus { border-color:var(--blue); background:rgba(79,142,247,0.05); box-shadow:0 0 0 4px rgba(79,142,247,0.1); }
-.form-control.err { border-color:rgba(255,68,102,0.5); }
+.form-control.err   { border-color:rgba(255,68,102,0.5)!important; }
 select.form-control option { background:#0a0d16; }
 textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
 
-/* Price input with currency */
 .price-wrap { position:relative; }
-.price-wrap .currency { position:absolute; left:1rem; top:50%; transform:translateY(-50%); color:var(--lgray); font-size:0.9rem; }
+.price-wrap .currency { position:absolute;left:1rem;top:50%;transform:translateY(-50%);color:var(--lgray);font-size:0.9rem;pointer-events:none; }
 .price-wrap .form-control { padding-left:2rem; }
-.price-wrap .per-day { position:absolute; right:1rem; top:50%; transform:translateY(-50%); font-size:0.75rem; color:var(--gray); }
+.price-wrap .per-day { position:absolute;right:1rem;top:50%;transform:translateY(-50%);font-size:0.75rem;color:var(--gray);pointer-events:none; }
 
-/* Category emoji picker */
-.cat-picker {
-  display:grid; grid-template-columns:repeat(5,1fr); gap:6px;
-}
+.cat-picker { display:grid; grid-template-columns:repeat(5,1fr); gap:6px; }
 .cat-opt {
-  padding:0.7rem 0.4rem;
-  border-radius:12px;
-  background:rgba(255,255,255,0.04);
-  border:1.5px solid var(--bdr);
-  cursor:pointer; transition:all 0.2s;
-  text-align:center;
+  padding:0.7rem 0.4rem; border-radius:12px;
+  background:rgba(255,255,255,0.04); border:1.5px solid var(--bdr);
+  cursor:pointer; transition:all 0.2s; text-align:center;
   display:flex; flex-direction:column; align-items:center; gap:4px;
 }
 .cat-opt:hover { border-color:var(--bdr2); background:rgba(255,255,255,0.07); }
-.cat-opt.sel { border-color:var(--blue); background:rgba(79,142,247,0.1); }
-.cat-opt-icon { font-size:1.5rem; }
-.cat-opt-name { font-size:0.58rem; color:var(--lgray); line-height:1.2; }
+.cat-opt.sel   { border-color:var(--blue); background:rgba(79,142,247,0.1); }
+.cat-opt-icon  { font-size:1.5rem; }
+.cat-opt-name  { font-size:0.58rem; color:var(--lgray); line-height:1.2; }
 
-/* Condition selector */
 .condition-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
 .cond-opt {
-  padding:0.7rem 0.5rem;
-  border-radius:10px;
-  background:rgba(255,255,255,0.04);
-  border:1.5px solid var(--bdr);
-  cursor:pointer; transition:all 0.2s;
-  text-align:center; font-size:0.78rem; font-weight:600; color:var(--lgray);
+  padding:0.7rem 0.5rem; border-radius:10px;
+  background:rgba(255,255,255,0.04); border:1.5px solid var(--bdr);
+  cursor:pointer; transition:all 0.2s; text-align:center;
+  font-size:0.78rem; font-weight:600; color:var(--lgray);
 }
 .cond-opt:hover { border-color:var(--bdr2); color:var(--white); }
-.cond-opt.sel { border-color:var(--blue); background:rgba(79,142,247,0.1); color:var(--blue); }
+.cond-opt.sel   { border-color:var(--blue); background:rgba(79,142,247,0.1); color:var(--blue); }
 
-/* Step indicator */
+/* ── FORM STEPS ── */
 .form-steps {
-  display:flex; align-items:center; gap:0; padding:1.2rem 1.5rem; border-bottom:1px solid var(--bdr);
+  display:flex; align-items:center; gap:0;
+  padding:1.2rem 1.5rem; border-bottom:1px solid var(--bdr);
 }
-.form-step {
-  display:flex; align-items:center; gap:10px; flex:1;
-}
+.form-step { display:flex; align-items:center; gap:10px; flex:1; }
 .step-num {
   width:28px; height:28px; border-radius:50%;
   display:flex; align-items:center; justify-content:center;
   font-size:0.75rem; font-weight:700; flex-shrink:0;
-  background:rgba(120,140,200,0.1);
-  color:var(--gray);
-  border:1.5px solid rgba(120,140,200,0.15);
-  transition:all 0.3s;
+  background:rgba(120,140,200,0.1); color:var(--gray);
+  border:1.5px solid rgba(120,140,200,0.15); transition:all 0.3s;
 }
 .step-num.active { background:linear-gradient(135deg,var(--blue),var(--purple)); color:#fff; border-color:transparent; }
-.step-num.done { background:rgba(0,208,132,0.15); color:var(--green); border-color:rgba(0,208,132,0.3); }
-.step-label { font-size:0.75rem; font-weight:600; color:var(--gray); white-space:nowrap; }
-.step-label.active { color:var(--white); }
-.step-connector { flex:1; height:1.5px; background:rgba(120,140,200,0.15); margin:0 8px; }
+.step-num.done   { background:rgba(0,208,132,0.15); color:var(--green); border-color:rgba(0,208,132,0.3); }
+.step-label       { font-size:0.75rem;font-weight:600;color:var(--gray);white-space:nowrap; }
+.step-label.active{ color:var(--white); }
+.step-connector   { flex:1;height:1.5px;background:rgba(120,140,200,0.15);margin:0 8px; }
 .step-connector.done { background:linear-gradient(90deg,var(--blue),var(--purple)); }
 
-/* Form section panels */
-.form-panel { display:none; animation:fadeUp 0.3s ease both; }
+.form-panel        { display:none; animation:fadeUp 0.3s ease both; }
 .form-panel.active { display:block; }
 
-/* Image upload zone */
 .upload-zone {
-  border:2px dashed rgba(79,142,247,0.25);
-  border-radius:16px;
-  padding:2rem 1rem;
-  text-align:center;
-  cursor:pointer;
-  transition:all 0.25s;
+  border:2px dashed rgba(79,142,247,0.25); border-radius:16px;
+  padding:2rem 1rem; text-align:center; cursor:pointer; transition:all 0.25s;
   background:rgba(79,142,247,0.03);
 }
 .upload-zone:hover { border-color:rgba(79,142,247,0.5); background:rgba(79,142,247,0.06); }
-.upload-zone .upload-icon { font-size:2.5rem; margin-bottom:0.6rem; }
-.upload-zone p { font-size:0.82rem; color:var(--lgray); margin-bottom:0.3rem; }
-.upload-zone small { font-size:0.72rem; color:var(--gray); }
+.upload-zone .upload-icon { font-size:2.5rem;margin-bottom:0.6rem; }
+.upload-zone p     { font-size:0.82rem;color:var(--lgray);margin-bottom:0.3rem; }
+.upload-zone small { font-size:0.72rem;color:var(--gray); }
 
-/* Preview card in form */
 .listing-preview {
   background:linear-gradient(135deg,rgba(79,142,247,0.08),rgba(162,89,255,0.06));
-  border:1px solid rgba(79,142,247,0.2);
-  border-radius:16px;
-  padding:1.2rem;
-  display:flex; align-items:flex-start; gap:1rem;
+  border:1px solid rgba(79,142,247,0.2); border-radius:16px;
+  padding:1.2rem; display:flex; align-items:flex-start; gap:1rem;
 }
-.preview-emoji { font-size:2.5rem; flex-shrink:0; }
-.preview-info h3 { font-family:'Cabinet Grotesk',sans-serif; font-weight:700; font-size:0.95rem; margin-bottom:4px; }
-.preview-info p { font-size:0.78rem; color:var(--lgray); line-height:1.5; }
+.preview-emoji  { font-size:2.5rem;flex-shrink:0; }
+.preview-info h3 { font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:4px; }
+.preview-info p  { font-size:0.78rem;color:var(--lgray);line-height:1.5; }
 
-/* Form footer */
 .form-footer {
-  padding:1.2rem 1.5rem;
-  border-top:1px solid var(--bdr);
+  padding:1.2rem 1.5rem; border-top:1px solid var(--bdr);
   display:flex; align-items:center; justify-content:space-between; gap:1rem;
 }
 
-/* Hint text */
-.hint { font-size:0.72rem; color:var(--gray); margin-top:0.3rem; }
+.hint         { font-size:0.72rem;color:var(--gray);margin-top:0.3rem; }
 .hint.success { color:var(--green); }
-.hint.error { color:var(--red); }
+.hint.error   { color:var(--red); }
 
-/* ── MODAL (delete confirm) ── */
+/* ── SUBMIT SPINNER ── */
+.btn-spinner {
+  display:none; width:18px; height:18px;
+  border:2px solid rgba(255,255,255,0.3);
+  border-top-color:#fff; border-radius:50%;
+  animation:spin 0.7s linear infinite;
+}
+.btn-loading .btn-txt { display:none; }
+.btn-loading .btn-spinner { display:inline-block; }
+
+/* ── MODAL ── */
 .modal-overlay {
   position:fixed; inset:0; z-index:200;
-  background:rgba(0,5,20,0.85);
-  backdrop-filter:blur(10px);
+  background:rgba(0,5,20,0.85); backdrop-filter:blur(10px);
   display:none; align-items:center; justify-content:center;
 }
 .modal-overlay.open { display:flex; }
 .modal-box {
-  background:var(--card);
-  border:1px solid var(--bdr2);
-  border-radius:20px;
-  padding:2rem;
-  max-width:380px; width:90%;
-  text-align:center;
+  background:var(--card); border:1px solid var(--bdr2);
+  border-radius:20px; padding:2rem;
+  max-width:380px; width:90%; text-align:center;
   animation:fadeUp 0.3s ease both;
 }
-.modal-icon { font-size:2.5rem; margin-bottom:1rem; }
-.modal-box h3 { font-family:'Cabinet Grotesk',sans-serif; font-weight:800; font-size:1.1rem; margin-bottom:0.5rem; }
-.modal-box p { font-size:0.85rem; color:var(--lgray); margin-bottom:1.5rem; line-height:1.6; }
-.modal-btns { display:flex; gap:0.6rem; }
-.modal-btns .btn { flex:1; justify-content:center; }
+.modal-icon { font-size:2.5rem;margin-bottom:1rem; }
+.modal-box h3 { font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:0.5rem; }
+.modal-box p  { font-size:0.85rem;color:var(--lgray);margin-bottom:1.5rem;line-height:1.6; }
+.modal-btns   { display:flex;gap:0.6rem; }
+.modal-btns .btn { flex:1;justify-content:center; }
 
 /* ── TOAST ── */
 .toast {
   position:fixed; bottom:1.5rem; right:1.5rem; z-index:999;
-  padding:0.85rem 1.3rem;
-  border-radius:12px;
+  padding:0.85rem 1.3rem; border-radius:12px;
   font-size:0.85rem; font-weight:500;
   display:flex; align-items:center; gap:8px;
   box-shadow:0 8px 32px rgba(0,0,0,0.4);
   transform:translateX(130%);
   transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  max-width:300px;
+  max-width:300px; pointer-events:none;
 }
-.toast.show { transform:translateX(0); }
+.toast.show    { transform:translateX(0); pointer-events:auto; }
 .toast.success { background:rgba(0,208,132,0.15); border:1px solid rgba(0,208,132,0.3); color:#00d084; }
-.toast.error { background:rgba(255,68,102,0.12); border:1px solid rgba(255,68,102,0.3); color:#ff6680; }
-.toast.info { background:rgba(79,142,247,0.12); border:1px solid rgba(79,142,247,0.25); color:#7ab0ff; }
+.toast.error   { background:rgba(255,68,102,0.12); border:1px solid rgba(255,68,102,0.3); color:#ff6680; }
+.toast.info    { background:rgba(79,142,247,0.12); border:1px solid rgba(79,142,247,0.25); color:#7ab0ff; }
 
-/* ── MOBILE ── */
-@media (max-width:768px) {
-  .stats-row { grid-template-columns:1fr 1fr; }
-  .form-grid { grid-template-columns:1fr; }
+/* ── RESPONSIVE ── */
+@media(max-width:768px) {
+  .stats-row     { grid-template-columns:1fr 1fr; }
+  .form-grid     { grid-template-columns:1fr; }
   .listings-grid { grid-template-columns:1fr; }
-  .cat-picker { grid-template-columns:repeat(5,1fr); }
-  .main { padding:1rem; }
-  .form-steps { padding:1rem; }
-  .step-label { display:none; }
-  .condition-grid { grid-template-columns:repeat(2,1fr); }
+  .main          { padding:1rem; }
+  .form-steps    { padding:1rem; }
+  .step-label    { display:none; }
+  .condition-grid{ grid-template-columns:repeat(2,1fr); }
 }
-@media (max-width:480px) {
-  .stats-row { grid-template-columns:1fr 1fr; }
+@media(max-width:480px) {
   .cat-picker { grid-template-columns:repeat(4,1fr); }
 }
 </style>
@@ -446,10 +374,8 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
 <!-- ── TOPBAR ── -->
 <div class="topbar">
   <div class="topbar-left">
-    <a href="rentverse-dashboard.html" class="back-btn" title="Back to Dashboard">←</a>
-    <div>
-      <div class="page-title" id="topTitle">My Listings</div>
-    </div>
+    <a href="rentverse-dashboard.html" class="back-btn" title="Dashboard">←</a>
+    <div class="page-title" id="topTitle">My Listings</div>
   </div>
   <div class="topbar-right">
     <button class="btn btn-primary" id="addNewBtn" onclick="showAddForm()">＋ Add Listing</button>
@@ -459,7 +385,7 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
 <div class="main">
 
   <!-- ── VIEW TOGGLE ── -->
-  <div class="view-toggle" id="viewToggle">
+  <div class="view-toggle">
     <button class="vtab active" id="myListTab" onclick="showView('my')">
       📋 My Listings <span class="vtab-count" id="myCount">0</span>
     </button>
@@ -475,31 +401,19 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
     <div class="stats-row">
       <div class="stat-mini">
         <div class="stat-mini-icon" style="background:rgba(79,142,247,0.12)">📋</div>
-        <div>
-          <div class="stat-mini-val" id="sTotal">0</div>
-          <div class="stat-mini-lbl">Total Listings</div>
-        </div>
+        <div><div class="stat-mini-val" id="sTotal">0</div><div class="stat-mini-lbl">Total Listings</div></div>
       </div>
       <div class="stat-mini">
         <div class="stat-mini-icon" style="background:rgba(0,208,132,0.1)">✅</div>
-        <div>
-          <div class="stat-mini-val" id="sActive">0</div>
-          <div class="stat-mini-lbl">Active</div>
-        </div>
+        <div><div class="stat-mini-val" id="sActive">0</div><div class="stat-mini-lbl">Active</div></div>
       </div>
       <div class="stat-mini">
         <div class="stat-mini-icon" style="background:rgba(162,89,255,0.1)">👁</div>
-        <div>
-          <div class="stat-mini-val" id="sViews">0</div>
-          <div class="stat-mini-lbl">Total Views</div>
-        </div>
+        <div><div class="stat-mini-val" id="sViews">0</div><div class="stat-mini-lbl">Total Views</div></div>
       </div>
       <div class="stat-mini">
         <div class="stat-mini-icon" style="background:rgba(255,149,0,0.1)">💰</div>
-        <div>
-          <div class="stat-mini-val" id="sEarned">₹0</div>
-          <div class="stat-mini-lbl">From Listings</div>
-        </div>
+        <div><div class="stat-mini-val" id="sEarned">₹0</div><div class="stat-mini-lbl">Earnings</div></div>
       </div>
     </div>
 
@@ -510,34 +424,31 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
           <span class="sec-head-icon">📋</span>
           <div>
             <h2>All Listings</h2>
-            <p id="listingSubtitle">Loading...</p>
+            <p id="listingSubtitle">Loading…</p>
           </div>
         </div>
       </div>
 
-      <!-- Filter bar -->
       <div class="filter-bar">
         <div class="search-box">
           <span style="color:var(--gray);font-size:0.9rem">🔍</span>
-          <input type="text" id="searchInp" placeholder="Search your listings..." oninput="filterListings()">
+          <input type="text" id="searchInp" placeholder="Search your listings…" oninput="renderListings()">
         </div>
-        <button class="filter-pill active" data-filter="all" onclick="setFilter('all',this)">All</button>
-        <button class="filter-pill" data-filter="active" onclick="setFilter('active',this)">Active</button>
-        <button class="filter-pill" data-filter="inactive" onclick="setFilter('inactive',this)">Inactive</button>
+        <button class="filter-pill active" data-filter="all"      onclick="setFilter('all',this)">All</button>
+        <button class="filter-pill"        data-filter="active"   onclick="setFilter('active',this)">Active</button>
+        <button class="filter-pill"        data-filter="inactive" onclick="setFilter('inactive',this)">Inactive</button>
       </div>
 
       <div class="listings-grid" id="listingsGrid"></div>
     </div>
-
-  </div><!-- end myView -->
+  </div><!-- /myView -->
 
   <!-- ════════ ADD LISTING VIEW ════════ -->
   <div id="addView">
-
     <div class="section">
 
-      <!-- Step indicator -->
-      <div class="form-steps" id="formSteps">
+      <!-- Step indicator: 4 steps → 3 connectors (sc1,sc2,sc3) -->
+      <div class="form-steps">
         <div class="form-step">
           <div class="step-num active" id="sn1">1</div>
           <div class="step-label active" id="sl1">Basic Info</div>
@@ -563,6 +474,7 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
       <div class="form-panel active" id="panel1">
         <div class="form-grid">
           <div class="form-col">
+
             <div class="form-group">
               <label>Item Title <span class="req">*</span></label>
               <input class="form-control" id="fTitle" type="text" placeholder="e.g. Canon EOS 1500D Camera" oninput="updatePreview()">
@@ -572,87 +484,49 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
             <div class="form-group">
               <label>Category <span class="req">*</span></label>
               <div class="cat-picker" id="catPicker">
-                <div class="cat-opt sel" data-cat="Vehicles" data-emoji="🏍️" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">🏍️</div>
-                  <div class="cat-opt-name">Vehicles</div>
-                </div>
-                <div class="cat-opt" data-cat="Cameras & Photography" data-emoji="📷" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">📷</div>
-                  <div class="cat-opt-name">Cameras</div>
-                </div>
-                <div class="cat-opt" data-cat="Electronics & Gadgets" data-emoji="💻" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">💻</div>
-                  <div class="cat-opt-name">Electronics</div>
-                </div>
-                <div class="cat-opt" data-cat="Furniture" data-emoji="🛋️" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">🛋️</div>
-                  <div class="cat-opt-name">Furniture</div>
-                </div>
-                <div class="cat-opt" data-cat="Party & Events" data-emoji="🎉" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">🎉</div>
-                  <div class="cat-opt-name">Party</div>
-                </div>
-                <div class="cat-opt" data-cat="Tools & Equipment" data-emoji="🔧" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">🔧</div>
-                  <div class="cat-opt-name">Tools</div>
-                </div>
-                <div class="cat-opt" data-cat="Travel & Trekking" data-emoji="⛺" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">⛺</div>
-                  <div class="cat-opt-name">Travel</div>
-                </div>
-                <div class="cat-opt" data-cat="Fashion & Wedding" data-emoji="👗" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">👗</div>
-                  <div class="cat-opt-name">Fashion</div>
-                </div>
-                <div class="cat-opt" data-cat="Books & Study" data-emoji="📚" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">📚</div>
-                  <div class="cat-opt-name">Books</div>
-                </div>
-                <div class="cat-opt" data-cat="Home Appliances" data-emoji="🏠" onclick="pickCat(this)">
-                  <div class="cat-opt-icon">🏠</div>
-                  <div class="cat-opt-name">Appliances</div>
-                </div>
+                <div class="cat-opt sel" data-cat="Vehicles"           data-emoji="🏍️" onclick="pickCat(this)"><div class="cat-opt-icon">🏍️</div><div class="cat-opt-name">Vehicles</div></div>
+                <div class="cat-opt"    data-cat="Cameras & Photography" data-emoji="📷" onclick="pickCat(this)"><div class="cat-opt-icon">📷</div><div class="cat-opt-name">Cameras</div></div>
+                <div class="cat-opt"    data-cat="Electronics & Gadgets" data-emoji="💻" onclick="pickCat(this)"><div class="cat-opt-icon">💻</div><div class="cat-opt-name">Electronics</div></div>
+                <div class="cat-opt"    data-cat="Furniture"            data-emoji="🛋️" onclick="pickCat(this)"><div class="cat-opt-icon">🛋️</div><div class="cat-opt-name">Furniture</div></div>
+                <div class="cat-opt"    data-cat="Party & Events"       data-emoji="🎉" onclick="pickCat(this)"><div class="cat-opt-icon">🎉</div><div class="cat-opt-name">Party</div></div>
+                <div class="cat-opt"    data-cat="Tools & Equipment"    data-emoji="🔧" onclick="pickCat(this)"><div class="cat-opt-icon">🔧</div><div class="cat-opt-name">Tools</div></div>
+                <div class="cat-opt"    data-cat="Travel & Trekking"    data-emoji="⛺" onclick="pickCat(this)"><div class="cat-opt-icon">⛺</div><div class="cat-opt-name">Travel</div></div>
+                <div class="cat-opt"    data-cat="Fashion & Wedding"    data-emoji="👗" onclick="pickCat(this)"><div class="cat-opt-icon">👗</div><div class="cat-opt-name">Fashion</div></div>
+                <div class="cat-opt"    data-cat="Books & Study"        data-emoji="📚" onclick="pickCat(this)"><div class="cat-opt-icon">📚</div><div class="cat-opt-name">Books</div></div>
+                <div class="cat-opt"    data-cat="Home Appliances"      data-emoji="🏠" onclick="pickCat(this)"><div class="cat-opt-icon">🏠</div><div class="cat-opt-name">Appliances</div></div>
               </div>
             </div>
 
             <div class="form-group">
               <label>City / Location <span class="req">*</span></label>
-              <select class="form-control" id="fCity">
+              <select class="form-control" id="fCity" onchange="updatePreview()">
                 <option value="">Select your city</option>
-                <option>Nepanagar</option>
-                <option>Indore</option>
-                <option>Bhopal</option>
-                <option>Seevel</option>
-                <option>Pachmarhi</option>
-                <option>Delhi</option>
-                <option>Mumbai</option>
-                <option>Pune</option>
-                <option>Bangalore</option>
-                <option>Other</option>
+                <option>Nepanagar</option><option>Indore</option><option>Bhopal</option>
+                <option>Gwalior</option><option>Seevel</option><option>Pachmarhi</option>
+                <option>Delhi</option><option>Mumbai</option><option>Pune</option>
+                <option>Bangalore</option><option>Other</option>
               </select>
             </div>
           </div>
 
           <div class="form-col">
-            <!-- Live preview -->
             <div class="form-group">
               <label>Live Preview</label>
               <div class="listing-preview" id="livePreview">
                 <div class="preview-emoji" id="previewEmoji">🏍️</div>
                 <div class="preview-info">
                   <h3 id="previewTitle">Item ka naam yahan aayega</h3>
-                  <p id="previewMeta">Category · City · ₹0/day</p>
+                  <p  id="previewMeta">Category · City · ₹0/day</p>
                 </div>
               </div>
             </div>
 
-            <!-- Image upload -->
             <div class="form-group">
               <label>Photos (Optional)</label>
-              <div class="upload-zone" onclick="showToast('Photo upload feature coming soon with Firebase!','info')">
+              <div class="upload-zone" onclick="showToast('Photo upload coming soon with Firebase!','info')">
                 <div class="upload-icon">📸</div>
                 <p>Tap to add photos</p>
-                <small>JPG, PNG · Max 5MB each (Coming soon)</small>
+                <small>JPG, PNG · Max 5 MB (Coming soon)</small>
               </div>
             </div>
           </div>
@@ -670,7 +544,7 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
           <div class="form-col">
             <div class="form-group">
               <label>Description <span class="req">*</span></label>
-              <textarea class="form-control" id="fDesc" placeholder="Item ke baare mein batao — condition, features, kya include hai..." oninput="updateCharCount()"></textarea>
+              <textarea class="form-control" id="fDesc" placeholder="Item ke baare mein batao — condition, features, kya include hai…" oninput="updateCharCount()"></textarea>
               <div class="hint" id="descCount">0 / 500 characters</div>
             </div>
 
@@ -678,9 +552,9 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
               <label>Item Condition <span class="req">*</span></label>
               <div class="condition-grid">
                 <div class="cond-opt sel" data-cond="Brand New" onclick="pickCond(this)">🌟 Brand New</div>
-                <div class="cond-opt" data-cond="Like New" onclick="pickCond(this)">✨ Like New</div>
-                <div class="cond-opt" data-cond="Good" onclick="pickCond(this)">👍 Good</div>
-                <div class="cond-opt" data-cond="Fair" onclick="pickCond(this)">👌 Fair</div>
+                <div class="cond-opt"     data-cond="Like New"  onclick="pickCond(this)">✨ Like New</div>
+                <div class="cond-opt"     data-cond="Good"      onclick="pickCond(this)">👍 Good</div>
+                <div class="cond-opt"     data-cond="Fair"      onclick="pickCond(this)">👌 Fair</div>
               </div>
             </div>
           </div>
@@ -692,7 +566,8 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
             </div>
             <div class="form-group">
               <label>Contact Phone <span class="req">*</span></label>
-              <input class="form-control" id="fOwnerPhone" type="tel" placeholder="10-digit number" maxlength="10" oninput="this.value=this.value.replace(/\D/g,'')">
+              <input class="form-control" id="fOwnerPhone" type="tel" placeholder="10-digit number" maxlength="10"
+                     oninput="this.value=this.value.replace(/\D/g,''); validatePhone2()">
               <div class="hint" id="phoneHint2"></div>
             </div>
             <div class="form-group">
@@ -758,7 +633,6 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
           </div>
 
           <div class="form-col">
-            <!-- Pricing summary card -->
             <div class="form-group">
               <label>Pricing Summary</label>
               <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.15);border-radius:14px;padding:1.2rem;display:flex;flex-direction:column;gap:0.8rem">
@@ -767,15 +641,15 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
                   <span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:var(--blue)" id="summaryDay">₹0</span>
                 </div>
                 <div style="display:flex;justify-content:space-between">
-                  <span style="font-size:0.78rem;color:var(--lgray)">3-day booking earns</span>
+                  <span style="font-size:0.78rem;color:var(--lgray)">3-day booking</span>
                   <span style="font-size:0.82rem;font-weight:600;color:var(--green)" id="summ3">₹0</span>
                 </div>
                 <div style="display:flex;justify-content:space-between">
-                  <span style="font-size:0.78rem;color:var(--lgray)">7-day booking earns</span>
+                  <span style="font-size:0.78rem;color:var(--lgray)">7-day booking</span>
                   <span style="font-size:0.82rem;font-weight:600;color:var(--green)" id="summ7">₹0</span>
                 </div>
                 <div style="display:flex;justify-content:space-between">
-                  <span style="font-size:0.78rem;color:var(--lgray)">30-day booking earns</span>
+                  <span style="font-size:0.78rem;color:var(--lgray)">30-day booking</span>
                   <span style="font-size:0.82rem;font-weight:600;color:var(--green)" id="summ30">₹0</span>
                 </div>
                 <div style="padding-top:0.6rem;border-top:1px solid rgba(79,142,247,0.1);font-size:0.72rem;color:var(--gray)">
@@ -784,15 +658,14 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
               </div>
             </div>
 
-            <!-- Tips -->
             <div style="background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.15);border-radius:14px;padding:1rem">
               <div style="font-size:0.78rem;font-weight:600;color:var(--orange);margin-bottom:0.5rem">💡 Pricing Tips</div>
-              <ul style="font-size:0.75rem;color:var(--lgray);line-height:1.8;padding-left:1rem">
-                <li>Camera: ₹300-600/day</li>
-                <li>Bike: ₹300-500/day</li>
-                <li>Laptop: ₹400-700/day</li>
-                <li>Speaker: ₹500-1500/day</li>
-                <li>Drill: ₹150-250/day</li>
+              <ul style="font-size:0.75rem;color:var(--lgray);line-height:1.9;padding-left:1rem">
+                <li>Camera: ₹300–600/day</li>
+                <li>Bike: ₹300–500/day</li>
+                <li>Laptop: ₹400–700/day</li>
+                <li>Speaker: ₹500–1500/day</li>
+                <li>Drill: ₹150–250/day</li>
               </ul>
             </div>
           </div>
@@ -812,20 +685,20 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
               <div id="reviewEmoji" style="font-size:3rem">🏍️</div>
               <div>
                 <div id="reviewTitle" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:3px">—</div>
-                <div id="reviewCat" style="font-size:0.78rem;color:var(--lgray)">—</div>
+                <div id="reviewCat"   style="font-size:0.78rem;color:var(--lgray)">—</div>
               </div>
             </div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
               <div style="text-align:center;padding:0.8rem;background:rgba(255,255,255,0.04);border-radius:10px">
-                <div style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--blue)" id="reviewPrice">₹0</div>
+                <div id="reviewPrice" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--blue)">₹0</div>
                 <div style="font-size:0.68rem;color:var(--gray)">Per Day</div>
               </div>
               <div style="text-align:center;padding:0.8rem;background:rgba(255,255,255,0.04);border-radius:10px">
-                <div style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--green)" id="reviewCity">—</div>
+                <div id="reviewCity" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--green)">—</div>
                 <div style="font-size:0.68rem;color:var(--gray)">City</div>
               </div>
               <div style="text-align:center;padding:0.8rem;background:rgba(255,255,255,0.04);border-radius:10px">
-                <div style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--purple)" id="reviewCond">—</div>
+                <div id="reviewCond" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--purple)">—</div>
                 <div style="font-size:0.68rem;color:var(--gray)">Condition</div>
               </div>
             </div>
@@ -839,17 +712,17 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
 
         <div class="form-footer">
           <button class="btn btn-ghost" onclick="goStep(3)">← Back</button>
-          <button class="btn btn-primary" id="submitBtn" onclick="submitListing()" style="padding:0.75rem 2rem">
-            <span id="submitText">🚀 Publish Listing</span>
-            <span id="submitSpinner" style="display:none">⏳ Publishing...</span>
+          <button class="btn btn-primary" id="submitBtn" onclick="submitListing()" style="padding:0.75rem 2rem;min-width:180px">
+            <span class="btn-txt">🚀 Publish Listing</span>
+            <span class="btn-spinner"></span>
           </button>
         </div>
       </div>
 
     </div>
-  </div><!-- end addView -->
+  </div><!-- /addView -->
 
-</div><!-- end main -->
+</div><!-- /main -->
 
 <!-- Delete Modal -->
 <div class="modal-overlay" id="deleteModal">
@@ -858,8 +731,8 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
     <h3>Delete Listing?</h3>
     <p>Ye listing permanently delete ho jaayegi. Ye action undo nahi hoga.</p>
     <div class="modal-btns">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+      <button class="btn btn-ghost"   onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger"  onclick="confirmDelete()">Delete</button>
     </div>
   </div>
 </div>
@@ -869,88 +742,99 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
 
 <script>
 // ════════════════════════════════════════
-// INIT
+// STATE
 // ════════════════════════════════════════
-let USER = null;
+let USER        = null;
 let MY_LISTINGS = [];
-let filterMode = 'all';
-let deleteTargetId = null;
+let filterMode  = 'all';
+let deleteTargetId = null; // FIX: single variable (was declared twice)
 let currentStep = 1;
 
-// Form state
-let selCat = 'Vehicles';
+let selCat   = 'Vehicles';
 let selEmoji = '🏍️';
-let selCond = 'Brand New';
+let selCond  = 'Brand New';
+let _editId  = null; // FIX: clean separate edit-ID tracker
 
+// ════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════
 function safe(key, fallback) {
   try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
   catch(e) { return fallback; }
 }
 
-function showToast(msg, type='info', dur=3500) {
+function showToast(msg, type = 'info', dur = 3500) {
   const el = document.getElementById('toastEl');
-  const styles = {
-    success:'background:rgba(0,208,132,0.15);border:1px solid rgba(0,208,132,0.3);color:#00d084',
-    error:'background:rgba(255,68,102,0.12);border:1px solid rgba(255,68,102,0.3);color:#ff6680',
-    info:'background:rgba(79,142,247,0.12);border:1px solid rgba(79,142,247,0.25);color:#7ab0ff'
-  };
-  el.style.cssText = (styles[type]||styles.info)+';position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;padding:0.85rem 1.3rem;border-radius:12px;font-size:0.85rem;font-weight:500;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(0,0,0,0.4);transform:translateX(0);transition:transform 0.3s;max-width:300px';
+  el.className = `toast ${type} show`;
   el.innerHTML = `<span>${type==='success'?'✅':type==='error'?'❌':'ℹ️'}</span>${msg}`;
-  setTimeout(() => el.style.transform='translateX(130%)', dur);
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), dur);
 }
 
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
 window.addEventListener('DOMContentLoaded', () => {
   USER = safe('rv_current', null);
-  if(!USER) { showToast('Please login first','error'); setTimeout(()=>window.location.href='rentverse-auth.html',1500); return; }
+  if (!USER) {
+    showToast('Please login first', 'error');
+    setTimeout(() => window.location.href = 'rentverse-signin.html', 1500);
+    return;
+  }
   loadMyListings();
-  prefillContactFromUser();
+  prefillContact();
 });
 
-function prefillContactFromUser() {
-  if(!USER) return;
-  const nameEl = document.getElementById('fOwnerName');
-  const phoneEl = document.getElementById('fOwnerPhone');
-  if(nameEl && USER.name) nameEl.value = USER.name;
-  if(phoneEl && USER.phone) phoneEl.value = USER.phone;
+function prefillContact() {
+  if (!USER) return;
+  const n = document.getElementById('fOwnerName');
+  const p = document.getElementById('fOwnerPhone');
+  if (n && USER.name)  n.value = USER.name;
+  if (p && USER.phone) p.value = USER.phone;
 }
 
 // ════════════════════════════════════════
-// LOAD & RENDER LISTINGS
+// LOAD & RENDER
 // ════════════════════════════════════════
 function loadMyListings() {
-  const allListings = safe('rv_listings', []);
-  MY_LISTINGS = allListings.filter(l => String(l.userId) === String(USER.id));
+  const all = safe('rv_listings', []);
+  MY_LISTINGS = all.filter(l => String(l.userId) === String(USER.id));
   renderStats();
   renderListings();
   document.getElementById('myCount').textContent = MY_LISTINGS.length;
 }
 
 function renderStats() {
-  const active = MY_LISTINGS.filter(l => l.status !== 'inactive').length;
-  const views = MY_LISTINGS.reduce((s,l) => s + (l.views||0), 0);
-  const allBookings = safe('rv_bookings', []);
-  const earned = allBookings
-    .filter(b => String(b.ownerId || b.userId) === String(USER.id) && b.paymentStatus==='Paid')
-    .reduce((s,b) => s+(b.totalPrice||0), 0);
+  const active  = MY_LISTINGS.filter(l => l.status !== 'inactive').length;
+  const views   = MY_LISTINGS.reduce((s, l) => s + (l.views || 0), 0);
+  const bookings = safe('rv_bookings', []);
+  const earned  = bookings
+    .filter(b => String(b.ownerId) === String(USER.id) && b.paymentStatus === 'Paid')
+    .reduce((s, b) => s + (b.totalPrice || 0), 0);
 
-  document.getElementById('sTotal').textContent = MY_LISTINGS.length;
+  document.getElementById('sTotal').textContent  = MY_LISTINGS.length;
   document.getElementById('sActive').textContent = active;
-  document.getElementById('sViews').textContent = views;
+  document.getElementById('sViews').textContent  = views >= 1000 ? (views/1000).toFixed(1)+'k' : views;
   document.getElementById('sEarned').textContent = earned >= 1000 ? '₹'+(earned/1000).toFixed(1)+'k' : '₹'+earned;
   document.getElementById('listingSubtitle').textContent = `${MY_LISTINGS.length} listings · ${active} active`;
 }
 
 function renderListings() {
-  const grid = document.getElementById('listingsGrid');
-  const query = document.getElementById('searchInp')?.value.toLowerCase() || '';
+  const grid  = document.getElementById('listingsGrid');
+  const query = (document.getElementById('searchInp')?.value || '').toLowerCase();
 
-  let filtered = MY_LISTINGS.filter(l => {
-    const matchFilter = filterMode==='all' || (filterMode==='active' && l.status!=='inactive') || (filterMode==='inactive' && l.status==='inactive');
-    const matchSearch = !query || l.title?.toLowerCase().includes(query) || l.cat?.toLowerCase().includes(query) || l.city?.toLowerCase().includes(query);
-    return matchFilter && matchSearch;
+  const filtered = MY_LISTINGS.filter(l => {
+    const matchF = filterMode === 'all'
+      || (filterMode === 'active'   && l.status !== 'inactive')
+      || (filterMode === 'inactive' && l.status === 'inactive');
+    const matchS = !query
+      || (l.title?.toLowerCase().includes(query))
+      || (l.cat?.toLowerCase().includes(query))
+      || (l.city?.toLowerCase().includes(query));
+    return matchF && matchS;
   });
 
-  if(!filtered.length) {
+  if (!filtered.length) {
     grid.innerHTML = `
       <div class="empty-state" style="grid-column:1/-1">
         <div class="empty-icon">📋</div>
@@ -964,26 +848,33 @@ function renderListings() {
   grid.innerHTML = filtered.map((l, i) => `
     <div class="listing-card" style="animation-delay:${i*0.05}s">
       <div class="listing-card-img">
-        ${l.emoji || '📦'}
-        <span class="listing-status-badge status-${l.status==='inactive'?'inactive':'active'}">${l.status==='inactive'?'⏸ Inactive':'● Active'}</span>
+        <span style="position:relative;z-index:1">${l.emoji || '📦'}</span>
+        <span class="listing-status-badge status-${l.status === 'inactive' ? 'inactive' : 'active'}">
+          ${l.status === 'inactive' ? '⏸ Inactive' : '● Active'}
+        </span>
       </div>
       <div class="listing-card-body">
-        <div class="listing-card-title">${l.title || 'Untitled'}</div>
+        <div class="listing-card-title">${escHtml(l.title || 'Untitled')}</div>
         <div class="listing-card-cat">
-          <span>${l.cat || ''}</span> · <span>📍${l.city || ''}</span>
-          ${l.condition ? `· <span>${l.condition}</span>` : ''}
+          <span>${escHtml(l.cat || '')}</span> · <span>📍${escHtml(l.city || '')}</span>
+          ${l.condition ? ` · <span>${escHtml(l.condition)}</span>` : ''}
         </div>
         <div class="listing-card-meta">
           <div class="listing-price">₹${l.price || 0}<span>/day</span></div>
-          <div class="listing-views">👁 ${l.views||0} views</div>
+          <div class="listing-views">👁 ${l.views || 0} views</div>
         </div>
         <div class="listing-card-actions">
-          <button class="btn btn-ghost btn-sm" onclick="editListing('${l.id}')">✏️ Edit</button>
-          <button class="btn btn-ghost btn-sm" onclick="toggleActive('${l.id}')">${l.status==='inactive'?'▶ Activate':'⏸ Pause'}</button>
-          <button class="btn btn-danger btn-sm" onclick="deleteListing('${l.id}')">🗑️</button>
+          <button class="btn btn-ghost btn-sm"  onclick="editListing('${l.id}')">✏️ Edit</button>
+          <button class="btn btn-ghost btn-sm"  onclick="toggleActive('${l.id}')">${l.status === 'inactive' ? '▶ Activate' : '⏸ Pause'}</button>
+          <button class="btn btn-danger btn-sm" onclick="askDelete('${l.id}')">🗑️</button>
         </div>
       </div>
     </div>`).join('');
+}
+
+// XSS-safe escaping for rendered HTML
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function setFilter(f, el) {
@@ -993,141 +884,144 @@ function setFilter(f, el) {
   renderListings();
 }
 
-function filterListings() { renderListings(); }
-
 // ════════════════════════════════════════
-// ACTIONS
+// LISTING ACTIONS
 // ════════════════════════════════════════
 function toggleActive(id) {
-  const allListings = safe('rv_listings', []);
-  const idx = allListings.findIndex(l => String(l.id) === String(id));
-  if(idx === -1) return;
-  allListings[idx].status = allListings[idx].status === 'inactive' ? 'active' : 'inactive';
-  localStorage.setItem('rv_listings', JSON.stringify(allListings));
+  const all = safe('rv_listings', []);
+  const idx = all.findIndex(l => String(l.id) === String(id));
+  if (idx === -1) return;
+  all[idx].status = all[idx].status === 'inactive' ? 'active' : 'inactive';
+  localStorage.setItem('rv_listings', JSON.stringify(all));
   loadMyListings();
-  showToast(`Listing ${allListings[idx].status === 'inactive' ? 'paused' : 'activated'}!`, 'success');
+  showToast(`Listing ${all[idx].status === 'inactive' ? 'paused ⏸' : 'activated ✅'}!`, 'success');
 }
 
 function editListing(id) {
-  const listing = MY_LISTINGS.find(l => String(l.id) === String(id));
-  if(!listing) return;
-  // Populate form
-  document.getElementById('fTitle').value = listing.title || '';
-  document.getElementById('fDesc').value = listing.desc || '';
-  document.getElementById('fPrice').value = listing.price || '';
-  document.getElementById('fCity').value = listing.city || '';
-  document.getElementById('fOwnerName').value = listing.ownerName || '';
-  document.getElementById('fOwnerPhone').value = listing.ownerPhone || '';
-  selCat = listing.cat || 'Vehicles';
-  selEmoji = listing.emoji || '📦';
-  selCond = listing.condition || 'Good';
-  // Update UI
-  document.querySelectorAll('.cat-opt').forEach(o => {
-    o.classList.toggle('sel', o.dataset.cat === selCat);
-  });
-  document.querySelectorAll('.cond-opt').forEach(o => {
-    o.classList.toggle('sel', o.dataset.cond === selCond);
-  });
+  const l = MY_LISTINGS.find(l => String(l.id) === String(id));
+  if (!l) return;
+
+  document.getElementById('fTitle').value      = l.title || '';
+  document.getElementById('fDesc').value       = l.desc  || '';
+  document.getElementById('fPrice').value      = l.price || '';
+  document.getElementById('fPriceWeek').value  = l.priceWeek || '';
+  document.getElementById('fDeposit').value    = l.deposit   || '';
+  document.getElementById('fCity').value       = l.city      || '';
+  document.getElementById('fOwnerName').value  = l.ownerName  || '';
+  document.getElementById('fOwnerPhone').value = l.ownerPhone || '';
+
+  selCat   = l.cat       || 'Vehicles';
+  selEmoji = l.emoji     || '📦';
+  selCond  = l.condition || 'Good';
+
+  document.querySelectorAll('.cat-opt').forEach(o  => o.classList.toggle('sel', o.dataset.cat  === selCat));
+  document.querySelectorAll('.cond-opt').forEach(o => o.classList.toggle('sel', o.dataset.cond === selCond));
+
   updatePreview();
+  updateCharCount();
   calcPrices();
-  // Store edit ID
-  window._editListingId = id;
+  _editId = String(id);
   showAddForm();
-  showToast('Listing loaded for editing', 'info');
+  goStep(1, false);
+  showToast('Listing loaded for editing ✏️', 'info');
 }
 
-let deleteTargetId2 = null;
-function deleteListing(id) {
-  deleteTargetId2 = id;
+// FIX: renamed to askDelete to avoid conflict with inner variable names
+function askDelete(id) {
+  deleteTargetId = id;
   document.getElementById('deleteModal').classList.add('open');
 }
 function closeModal() {
   document.getElementById('deleteModal').classList.remove('open');
-  deleteTargetId2 = null;
+  deleteTargetId = null;
 }
 function confirmDelete() {
-  if(!deleteTargetId2) return;
-  const allListings = safe('rv_listings', []);
-  const filtered = allListings.filter(l => String(l.id) !== String(deleteTargetId2));
+  if (!deleteTargetId) return;
+  const all      = safe('rv_listings', []);
+  const filtered = all.filter(l => String(l.id) !== String(deleteTargetId));
   localStorage.setItem('rv_listings', JSON.stringify(filtered));
   closeModal();
   loadMyListings();
-  showToast('Listing deleted', 'success');
+  showToast('Listing deleted 🗑️', 'success');
 }
 
 // ════════════════════════════════════════
 // VIEW SWITCHING
 // ════════════════════════════════════════
 function showView(view) {
-  if(view === 'my') {
-    document.getElementById('myView').style.display = 'block';
-    document.getElementById('addView').style.display = 'none';
-    document.getElementById('myListTab').classList.add('active');
-    document.getElementById('addListTab').classList.remove('active');
-    document.getElementById('topTitle').textContent = 'My Listings';
-    document.getElementById('addNewBtn').style.display = 'flex';
-    window._editListingId = null;
-    currentStep = 1;
+  const isAdd = view === 'add';
+  document.getElementById('myView').style.display  = isAdd ? 'none' : 'block';
+  document.getElementById('addView').style.display = isAdd ? 'block' : 'none';
+  document.getElementById('myListTab').classList.toggle('active', !isAdd);
+  document.getElementById('addListTab').classList.toggle('active',  isAdd);
+  document.getElementById('topTitle').textContent   = isAdd ? (_editId ? 'Edit Listing' : 'Add Listing') : 'My Listings';
+  document.getElementById('addNewBtn').style.display= isAdd ? 'none' : 'flex';
+
+  if (!isAdd) {
+    _editId = null;
     goStep(1, false);
-  } else {
-    document.getElementById('myView').style.display = 'none';
-    document.getElementById('addView').style.display = 'block';
-    document.getElementById('myListTab').classList.remove('active');
-    document.getElementById('addListTab').classList.add('active');
-    document.getElementById('topTitle').textContent = 'Add Listing';
-    document.getElementById('addNewBtn').style.display = 'none';
   }
 }
 
-function showAddForm() {
-  showView('add');
-}
+function showAddForm() { showView('add'); }
 
 // ════════════════════════════════════════
-// FORM STEPS
+// FORM STEPS — FIX: only sc1..sc3 exist (4 steps = 3 connectors)
 // ════════════════════════════════════════
-function goStep(n, validate=true) {
-  if(validate && n > currentStep) {
-    if(!validateStep(currentStep)) return;
-  }
+function goStep(n, doValidate = true) {
+  if (doValidate && n > currentStep && !validateStep(currentStep)) return;
 
-  // Update step UI
-  for(let i=1; i<=4; i++) {
-    const sn = document.getElementById(`sn${i}`);
-    const sl = document.getElementById(`sl${i}`);
+  for (let i = 1; i <= 4; i++) {
+    const sn    = document.getElementById(`sn${i}`);
+    const sl    = document.getElementById(`sl${i}`);
     const panel = document.getElementById(`panel${i}`);
-    const conn = document.getElementById(`sc${i}`);
-    sn.className = 'step-num' + (i<n?' done':i===n?' active':'');
-    sn.textContent = i<n ? '✓' : i;
-    sl.className = 'step-label' + (i===n?' active':'');
-    panel.className = 'form-panel' + (i===n?' active':'');
-    if(conn) conn.className = 'step-connector' + (i<n?' done':'');
+    if (!sn || !sl || !panel) continue;
+
+    sn.className  = 'step-num' + (i < n ? ' done' : i === n ? ' active' : '');
+    sn.textContent = i < n ? '✓' : String(i);
+    sl.className  = 'step-label' + (i === n ? ' active' : '');
+    panel.className = 'form-panel' + (i === n ? ' active' : '');
+
+    // Connectors: sc1 between step1-2, sc2 between step2-3, sc3 between step3-4
+    // sc{i} marks whether the path from step-i to step-(i+1) is done
+    if (i <= 3) {
+      const conn = document.getElementById(`sc${i}`);
+      if (conn) conn.className = 'step-connector' + (i < n ? ' done' : '');
+    }
   }
   currentStep = n;
-  if(n===4) buildReview();
+  if (n === 4) buildReview();
 }
 
 function validateStep(n) {
-  if(n===1) {
+  if (n === 1) {
     const title = document.getElementById('fTitle').value.trim();
-    const city = document.getElementById('fCity').value;
-    if(!title || title.length < 3) { showToast('Title kam se kam 3 characters ka hona chahiye','error'); document.getElementById('fTitle').classList.add('err'); return false; }
-    if(!city) { showToast('City select karo','error'); return false; }
+    const city  = document.getElementById('fCity').value;
+    if (!title || title.length < 3) {
+      showToast('Title minimum 3 characters likhna hai', 'error');
+      document.getElementById('fTitle').classList.add('err');
+      return false;
+    }
+    if (!city) { showToast('City select karo', 'error'); return false; }
     document.getElementById('fTitle').classList.remove('err');
     return true;
   }
-  if(n===2) {
-    const desc = document.getElementById('fDesc').value.trim();
+  if (n === 2) {
+    const desc  = document.getElementById('fDesc').value.trim();
+    const name  = document.getElementById('fOwnerName').value.trim();
     const phone = document.getElementById('fOwnerPhone').value.trim();
-    const name = document.getElementById('fOwnerName').value.trim();
-    if(!desc || desc.length < 10) { showToast('Description minimum 10 characters likho','error'); return false; }
-    if(!name) { showToast('Contact name bharo','error'); return false; }
-    if(!/^[6-9]\d{9}$/.test(phone)) { showToast('Valid 10-digit phone number enter karo','error'); return false; }
+    if (!desc  || desc.length < 10) { showToast('Description minimum 10 characters likhna hai', 'error'); return false; }
+    if (!name)                       { showToast('Contact name bharo', 'error'); return false; }
+    if (!/^[6-9]\d{9}$/.test(phone)){ showToast('Valid 10-digit phone number enter karo', 'error'); return false; }
     return true;
   }
-  if(n===3) {
+  if (n === 3) {
     const price = parseFloat(document.getElementById('fPrice').value);
-    if(!price || price <= 0) { showToast('Valid price enter karo (> 0)','error'); document.getElementById('fPrice').classList.add('err'); return false; }
+    if (!price || price <= 0) {
+      showToast('Valid price enter karo (> 0)', 'error');
+      document.getElementById('fPrice').classList.add('err');
+      return false;
+    }
     document.getElementById('fPrice').classList.remove('err');
     return true;
   }
@@ -1135,17 +1029,15 @@ function validateStep(n) {
 }
 
 // ════════════════════════════════════════
-// CATEGORY / CONDITION PICKERS
+// PICKERS
 // ════════════════════════════════════════
 function pickCat(el) {
   document.querySelectorAll('.cat-opt').forEach(o => o.classList.remove('sel'));
   el.classList.add('sel');
-  selCat = el.dataset.cat;
+  selCat   = el.dataset.cat;
   selEmoji = el.dataset.emoji;
-  document.getElementById('previewEmoji').textContent = selEmoji;
   updatePreview();
 }
-
 function pickCond(el) {
   document.querySelectorAll('.cond-opt').forEach(o => o.classList.remove('sel'));
   el.classList.add('sel');
@@ -1153,117 +1045,137 @@ function pickCond(el) {
 }
 
 // ════════════════════════════════════════
-// LIVE PREVIEW & CALC
+// LIVE PREVIEW & CALCS
 // ════════════════════════════════════════
 function updatePreview() {
   const title = document.getElementById('fTitle')?.value || 'Item ka naam';
-  const city = document.getElementById('fCity')?.value || 'City';
+  const city  = document.getElementById('fCity')?.value  || 'City';
   const price = document.getElementById('fPrice')?.value || '0';
   document.getElementById('previewEmoji').textContent = selEmoji;
   document.getElementById('previewTitle').textContent = title || 'Item ka naam yahan aayega';
-  document.getElementById('previewMeta').textContent = `${selCat} · ${city} · ₹${price}/day`;
+  document.getElementById('previewMeta').textContent  = `${selCat} · ${city} · ₹${price}/day`;
 }
 
 function updateCharCount() {
-  const val = document.getElementById('fDesc').value;
-  const el = document.getElementById('descCount');
+  const val = document.getElementById('fDesc')?.value || '';
+  const el  = document.getElementById('descCount');
+  if (!el) return;
   el.textContent = `${val.length} / 500 characters`;
-  el.className = 'hint' + (val.length > 500 ? ' error' : val.length >= 10 ? ' success' : '');
+  el.className   = 'hint' + (val.length > 500 ? ' error' : val.length >= 10 ? ' success' : '');
+}
+
+function validatePhone2() {
+  const val  = document.getElementById('fOwnerPhone').value;
+  const hint = document.getElementById('phoneHint2');
+  if (!hint) return;
+  if (val.length === 10 && /^[6-9]/.test(val)) {
+    hint.textContent = '✓ Valid number'; hint.className = 'hint success';
+  } else if (val.length > 0) {
+    hint.textContent = 'Valid Indian number enter karo'; hint.className = 'hint error';
+  } else {
+    hint.textContent = ''; hint.className = 'hint';
+  }
 }
 
 function calcPrices() {
-  const p = parseFloat(document.getElementById('fPrice').value) || 0;
+  const p = parseFloat(document.getElementById('fPrice')?.value) || 0;
   document.getElementById('summaryDay').textContent = `₹${p}`;
-  document.getElementById('summ3').textContent = `₹${p*3}`;
-  document.getElementById('summ7').textContent = `₹${p*7}`;
-  document.getElementById('summ30').textContent = `₹${p*30}`;
+  document.getElementById('summ3').textContent      = `₹${p * 3}`;
+  document.getElementById('summ7').textContent      = `₹${p * 7}`;
+  document.getElementById('summ30').textContent     = `₹${p * 30}`;
 }
 
 function buildReview() {
   document.getElementById('reviewEmoji').textContent = selEmoji;
   document.getElementById('reviewTitle').textContent = document.getElementById('fTitle').value || '—';
-  document.getElementById('reviewCat').textContent = `${selCat} · ${document.getElementById('fCity').value}`;
+  document.getElementById('reviewCat').textContent   = `${selCat} · ${document.getElementById('fCity').value || '—'}`;
   document.getElementById('reviewPrice').textContent = `₹${document.getElementById('fPrice').value || 0}`;
-  document.getElementById('reviewCity').textContent = document.getElementById('fCity').value || '—';
-  document.getElementById('reviewCond').textContent = selCond;
-  document.getElementById('reviewDesc').textContent = document.getElementById('fDesc').value || '—';
+  document.getElementById('reviewCity').textContent  = document.getElementById('fCity').value  || '—';
+  document.getElementById('reviewCond').textContent  = selCond;
+  document.getElementById('reviewDesc').textContent  = document.getElementById('fDesc').value  || '—';
 }
 
 // ════════════════════════════════════════
-// SUBMIT LISTING
+// SUBMIT
 // ════════════════════════════════════════
 function submitListing() {
-  const title = document.getElementById('fTitle').value.trim();
-  const desc = document.getElementById('fDesc').value.trim();
-  const city = document.getElementById('fCity').value;
-  const price = parseFloat(document.getElementById('fPrice').value);
-  const ownerName = document.getElementById('fOwnerName').value.trim();
+  const title      = document.getElementById('fTitle').value.trim();
+  const desc       = document.getElementById('fDesc').value.trim();
+  const city       = document.getElementById('fCity').value;
+  const price      = parseFloat(document.getElementById('fPrice').value);
+  const ownerName  = document.getElementById('fOwnerName').value.trim();
   const ownerPhone = document.getElementById('fOwnerPhone').value.trim();
-  const priceWeek = parseFloat(document.getElementById('fPriceWeek').value) || 0;
-  const deposit = parseFloat(document.getElementById('fDeposit').value) || 0;
-  const minDays = parseInt(document.getElementById('fMinDays').value) || 1;
-  const avail = document.getElementById('fAvail').value;
+  const priceWeek  = parseFloat(document.getElementById('fPriceWeek').value) || 0;
+  const deposit    = parseFloat(document.getElementById('fDeposit').value)   || 0;
+  const minDays    = parseInt(document.getElementById('fMinDays').value)     || 1;
+  const avail      = document.getElementById('fAvail').value;
 
-  if(!title || !city || !price || price<=0 || !desc) { showToast('Sab required fields bharo','error'); return; }
+  if (!title || !city || !price || price <= 0 || !desc || desc.length < 10) {
+    showToast('Sab required fields sahi se bharo', 'error');
+    return;
+  }
 
-  document.getElementById('submitText').style.display = 'none';
-  document.getElementById('submitSpinner').style.display = 'inline';
-  document.getElementById('submitBtn').disabled = true;
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
 
   setTimeout(() => {
-    const allListings = safe('rv_listings', []);
-    const isEdit = !!window._editListingId;
+    const all    = safe('rv_listings', []);
+    const isEdit = !!_editId;
+    const now    = new Date().toLocaleDateString('en-IN');
+
+    const existing = isEdit ? all.find(l => String(l.id) === String(_editId)) : null;
 
     const listing = {
-      id: isEdit ? window._editListingId : Date.now(),
-      userId: USER.id,
-      title, desc, city, price,
-      cat: selCat, emoji: selEmoji,
-      condition: selCond,
-      ownerName, ownerPhone,
-      priceWeek, deposit, minDays, availability: avail,
-      views: isEdit ? (allListings.find(l=>String(l.id)===String(window._editListingId))?.views||0) : 0,
-      createdAt: isEdit ? (allListings.find(l=>String(l.id)===String(window._editListingId))?.createdAt||new Date().toLocaleDateString('en-IN')) : new Date().toLocaleDateString('en-IN'),
-      status: 'active'
+      id:          isEdit ? _editId : Date.now(),
+      userId:      USER.id,
+      title, desc, city, price, cat: selCat, emoji: selEmoji,
+      condition:   selCond,
+      ownerName,   ownerPhone,
+      priceWeek,   deposit, minDays, availability: avail,
+      views:       existing?.views   || 0,
+      createdAt:   existing?.createdAt || now,
+      status:      'active'
     };
 
-    if(isEdit) {
-      const idx = allListings.findIndex(l => String(l.id) === String(window._editListingId));
-      if(idx > -1) allListings[idx] = listing;
+    if (isEdit) {
+      const idx = all.findIndex(l => String(l.id) === String(_editId));
+      if (idx > -1) all[idx] = listing;
+      else all.unshift(listing); // fallback
     } else {
-      allListings.unshift(listing);
+      all.unshift(listing);
     }
 
-    localStorage.setItem('rv_listings', JSON.stringify(allListings));
+    localStorage.setItem('rv_listings', JSON.stringify(all));
 
-    document.getElementById('submitText').style.display = 'inline';
-    document.getElementById('submitSpinner').style.display = 'none';
-    document.getElementById('submitBtn').disabled = false;
+    btn.classList.remove('btn-loading');
+    btn.disabled = false;
 
-    showToast(isEdit ? 'Listing updated!' : 'Listing published!', 'success', 4000);
-    window._editListingId = null;
-
-    // Reset form
+    showToast(isEdit ? '✅ Listing updated!' : '🚀 Listing published!', 'success', 4000);
+    _editId = null;
     resetForm();
     loadMyListings();
-    setTimeout(() => showView('my'), 1000);
+    setTimeout(() => showView('my'), 1200);
   }, 1500);
 }
 
 function resetForm() {
   ['fTitle','fDesc','fPrice','fPriceWeek','fDeposit'].forEach(id => {
     const el = document.getElementById(id);
-    if(el) el.value = '';
+    if (el) el.value = '';
   });
-  document.getElementById('fCity').value = '';
+  const cityEl = document.getElementById('fCity');
+  if (cityEl) cityEl.value = '';
+
   selCat = 'Vehicles'; selEmoji = '🏍️'; selCond = 'Brand New';
-  document.querySelectorAll('.cat-opt').forEach((o,i) => o.classList.toggle('sel', i===0));
-  document.querySelectorAll('.cond-opt').forEach((o,i) => o.classList.toggle('sel', i===0));
-  prefillContactFromUser();
+  document.querySelectorAll('.cat-opt').forEach((o, i)  => o.classList.toggle('sel', i === 0));
+  document.querySelectorAll('.cond-opt').forEach((o, i) => o.classList.toggle('sel', i === 0));
+
+  prefillContact();
   updatePreview();
-  goStep(1, false);
+  updateCharCount();
+  calcPrices();
 }
 </script>
 </body>
 </html>
-
