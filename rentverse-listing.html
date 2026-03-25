@@ -456,4 +456,726 @@ textarea.form-control { resize:vertical; min-height:100px; line-height:1.6; }
         <div class="step-connector" id="sc1"></div>
         <div class="form-step">
           <div class="step-num" id="sn2">2</div>
-          <d
+          <div class="step-label" id="sl2">Details</div>
+        </div>
+        <div class="step-connector" id="sc2"></div>
+        <div class="form-step">
+          <div class="step-num" id="sn3">3</div>
+          <div class="step-label" id="sl3">Pricing</div>
+        </div>
+        <div class="step-connector" id="sc3"></div>
+        <div class="form-step">
+          <div class="step-num" id="sn4">4</div>
+          <div class="step-label" id="sl4">Review</div>
+        </div>
+      </div>
+
+      <!-- ── STEP 1: Basic Info ── -->
+      <div class="form-panel active" id="panel1">
+        <div class="form-grid">
+          <div class="form-col">
+
+            <div class="form-group">
+              <label>Item Title <span class="req">*</span></label>
+              <input class="form-control" id="fTitle" type="text" placeholder="e.g. Canon EOS 1500D Camera" oninput="updatePreview()">
+              <div class="hint" id="titleHint"></div>
+            </div>
+
+            <div class="form-group">
+              <label>Category <span class="req">*</span></label>
+              <div class="cat-picker" id="catPicker">
+                <div class="cat-opt sel" data-cat="Vehicles"           data-emoji="🏍️" onclick="pickCat(this)"><div class="cat-opt-icon">🏍️</div><div class="cat-opt-name">Vehicles</div></div>
+                <div class="cat-opt"    data-cat="Cameras & Photography" data-emoji="📷" onclick="pickCat(this)"><div class="cat-opt-icon">📷</div><div class="cat-opt-name">Cameras</div></div>
+                <div class="cat-opt"    data-cat="Electronics & Gadgets" data-emoji="💻" onclick="pickCat(this)"><div class="cat-opt-icon">💻</div><div class="cat-opt-name">Electronics</div></div>
+                <div class="cat-opt"    data-cat="Furniture"            data-emoji="🛋️" onclick="pickCat(this)"><div class="cat-opt-icon">🛋️</div><div class="cat-opt-name">Furniture</div></div>
+                <div class="cat-opt"    data-cat="Party & Events"       data-emoji="🎉" onclick="pickCat(this)"><div class="cat-opt-icon">🎉</div><div class="cat-opt-name">Party</div></div>
+                <div class="cat-opt"    data-cat="Tools & Equipment"    data-emoji="🔧" onclick="pickCat(this)"><div class="cat-opt-icon">🔧</div><div class="cat-opt-name">Tools</div></div>
+                <div class="cat-opt"    data-cat="Travel & Trekking"    data-emoji="⛺" onclick="pickCat(this)"><div class="cat-opt-icon">⛺</div><div class="cat-opt-name">Travel</div></div>
+                <div class="cat-opt"    data-cat="Fashion & Wedding"    data-emoji="👗" onclick="pickCat(this)"><div class="cat-opt-icon">👗</div><div class="cat-opt-name">Fashion</div></div>
+                <div class="cat-opt"    data-cat="Books & Study"        data-emoji="📚" onclick="pickCat(this)"><div class="cat-opt-icon">📚</div><div class="cat-opt-name">Books</div></div>
+                <div class="cat-opt"    data-cat="Home Appliances"      data-emoji="🏠" onclick="pickCat(this)"><div class="cat-opt-icon">🏠</div><div class="cat-opt-name">Appliances</div></div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>City / Location <span class="req">*</span></label>
+              <select class="form-control" id="fCity" onchange="updatePreview()">
+                <option value="">Select your city</option>
+                <option>Nepanagar</option><option>Indore</option><option>Bhopal</option>
+                <option>Gwalior</option><option>Seevel</option><option>Pachmarhi</option>
+                <option>Delhi</option><option>Mumbai</option><option>Pune</option>
+                <option>Bangalore</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-col">
+            <div class="form-group">
+              <label>Live Preview</label>
+              <div class="listing-preview" id="livePreview">
+                <div class="preview-emoji" id="previewEmoji">🏍️</div>
+                <div class="preview-info">
+                  <h3 id="previewTitle">Item ka naam yahan aayega</h3>
+                  <p  id="previewMeta">Category · City · ₹0/day</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Photos (Optional)</label>
+              <div class="upload-zone" onclick="showToast('Photo upload coming soon with Firebase!','info')">
+                <div class="upload-icon">📸</div>
+                <p>Tap to add photos</p>
+                <small>JPG, PNG · Max 5 MB (Coming soon)</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <div></div>
+          <button class="btn btn-primary" onclick="goStep(2)">Next: Details →</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 2: Details ── -->
+      <div class="form-panel" id="panel2">
+        <div class="form-grid">
+          <div class="form-col">
+            <div class="form-group">
+              <label>Description <span class="req">*</span></label>
+              <textarea class="form-control" id="fDesc" placeholder="Item ke baare mein batao — condition, features, kya include hai…" oninput="updateCharCount()"></textarea>
+              <div class="hint" id="descCount">0 / 500 characters</div>
+            </div>
+
+            <div class="form-group">
+              <label>Item Condition <span class="req">*</span></label>
+              <div class="condition-grid">
+                <div class="cond-opt sel" data-cond="Brand New" onclick="pickCond(this)">🌟 Brand New</div>
+                <div class="cond-opt"     data-cond="Like New"  onclick="pickCond(this)">✨ Like New</div>
+                <div class="cond-opt"     data-cond="Good"      onclick="pickCond(this)">👍 Good</div>
+                <div class="cond-opt"     data-cond="Fair"      onclick="pickCond(this)">👌 Fair</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-col">
+            <div class="form-group">
+              <label>Contact Name <span class="req">*</span></label>
+              <input class="form-control" id="fOwnerName" type="text" placeholder="Tumhara naam">
+            </div>
+            <div class="form-group">
+              <label>Contact Phone <span class="req">*</span></label>
+              <input class="form-control" id="fOwnerPhone" type="tel" placeholder="10-digit number" maxlength="10"
+                     oninput="this.value=this.value.replace(/\D/g,''); validatePhone2()">
+              <div class="hint" id="phoneHint2"></div>
+            </div>
+            <div class="form-group">
+              <label>Availability</label>
+              <select class="form-control" id="fAvail">
+                <option value="Always Available">Always Available</option>
+                <option value="Weekdays Only">Weekdays Only</option>
+                <option value="Weekends Only">Weekends Only</option>
+                <option value="On Request">On Request</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(3)">Next: Pricing →</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: Pricing ── -->
+      <div class="form-panel" id="panel3">
+        <div class="form-grid">
+          <div class="form-col">
+            <div class="form-group">
+              <label>Price per Day <span class="req">*</span></label>
+              <div class="price-wrap">
+                <span class="currency">₹</span>
+                <input class="form-control" id="fPrice" type="number" min="1" placeholder="0" oninput="updatePreview();calcPrices()">
+                <span class="per-day">/day</span>
+              </div>
+              <div class="hint" id="priceHint"></div>
+            </div>
+
+            <div class="form-group">
+              <label>Weekly Price (Optional)</label>
+              <div class="price-wrap">
+                <span class="currency">₹</span>
+                <input class="form-control" id="fPriceWeek" type="number" min="1" placeholder="0">
+                <span class="per-day">/week</span>
+              </div>
+              <div class="hint">Leave 0 for no weekly discount</div>
+            </div>
+
+            <div class="form-group">
+              <label>Security Deposit (Optional)</label>
+              <div class="price-wrap">
+                <span class="currency">₹</span>
+                <input class="form-control" id="fDeposit" type="number" min="0" placeholder="0">
+              </div>
+              <div class="hint">Refundable deposit amount</div>
+            </div>
+
+            <div class="form-group">
+              <label>Minimum Rental Days</label>
+              <select class="form-control" id="fMinDays">
+                <option value="1">1 day minimum</option>
+                <option value="2">2 days minimum</option>
+                <option value="3">3 days minimum</option>
+                <option value="7">1 week minimum</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-col">
+            <div class="form-group">
+              <label>Pricing Summary</label>
+              <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.15);border-radius:14px;padding:1.2rem;display:flex;flex-direction:column;gap:0.8rem">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:0.6rem;border-bottom:1px solid rgba(79,142,247,0.1)">
+                  <span style="font-size:0.82rem;color:var(--lgray)">Daily Rate</span>
+                  <span style="font-family:'Cabinet Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:var(--blue)" id="summaryDay">₹0</span>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                  <span style="font-size:0.78rem;color:var(--lgray)">3-day booking</span>
+                  <span style="font-size:0.82rem;font-weight:600;color:var(--green)" id="summ3">₹0</span>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                  <span style="font-size:0.78rem;color:var(--lgray)">7-day booking</span>
+                  <span style="font-size:0.82rem;font-weight:600;color:var(--green)" id="summ7">₹0</span>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                  <span style="font-size:0.78rem;color:var(--lgray)">30-day booking</span>
+                  <span style="font-size:0.82rem;font-weight:600;color:var(--green)" id="summ30">₹0</span>
+                </div>
+                <div style="padding-top:0.6rem;border-top:1px solid rgba(79,142,247,0.1);font-size:0.72rem;color:var(--gray)">
+                  Platform fee: 5% per booking
+                </div>
+              </div>
+            </div>
+
+            <div style="background:rgba(255,149,0,0.06);border:1px solid rgba(255,149,0,0.15);border-radius:14px;padding:1rem">
+              <div style="font-size:0.78rem;font-weight:600;color:var(--orange);margin-bottom:0.5rem">💡 Pricing Tips</div>
+              <ul style="font-size:0.75rem;color:var(--lgray);line-height:1.9;padding-left:1rem">
+                <li>Camera: ₹300–600/day</li>
+                <li>Bike: ₹300–500/day</li>
+                <li>Laptop: ₹400–700/day</li>
+                <li>Speaker: ₹500–1500/day</li>
+                <li>Drill: ₹150–250/day</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+          <button class="btn btn-primary" onclick="goStep(4)">Review Listing →</button>
+        </div>
+      </div>
+
+      <!-- ── STEP 4: Review ── -->
+      <div class="form-panel" id="panel4">
+        <div style="padding:1.5rem">
+          <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.18);border-radius:18px;padding:1.5rem;margin-bottom:1.2rem">
+            <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem">
+              <div id="reviewEmoji" style="font-size:3rem">🏍️</div>
+              <div>
+                <div id="reviewTitle" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:3px">—</div>
+                <div id="reviewCat"   style="font-size:0.78rem;color:var(--lgray)">—</div>
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem">
+              <div style="text-align:center;padding:0.8rem;background:rgba(255,255,255,0.04);border-radius:10px">
+                <div id="reviewPrice" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--blue)">₹0</div>
+                <div style="font-size:0.68rem;color:var(--gray)">Per Day</div>
+              </div>
+              <div style="text-align:center;padding:0.8rem;background:rgba(255,255,255,0.04);border-radius:10px">
+                <div id="reviewCity" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--green)">—</div>
+                <div style="font-size:0.68rem;color:var(--gray)">City</div>
+              </div>
+              <div style="text-align:center;padding:0.8rem;background:rgba(255,255,255,0.04);border-radius:10px">
+                <div id="reviewCond" style="font-family:'Cabinet Grotesk',sans-serif;font-weight:800;font-size:1.1rem;color:var(--purple)">—</div>
+                <div style="font-size:0.68rem;color:var(--gray)">Condition</div>
+              </div>
+            </div>
+          </div>
+          <div id="reviewDesc" style="font-size:0.85rem;color:var(--lgray);line-height:1.7;margin-bottom:1.2rem;padding:1rem;background:rgba(255,255,255,0.03);border-radius:12px;border:1px solid var(--bdr)">—</div>
+          <div style="display:flex;gap:0.8rem;align-items:center;padding:0.8rem 1rem;background:rgba(0,208,132,0.06);border:1px solid rgba(0,208,132,0.15);border-radius:12px;margin-bottom:0.5rem">
+            <span>✅</span>
+            <span style="font-size:0.82rem;color:var(--lgray)">Listing will be visible to all RentVerse users immediately after submission.</span>
+          </div>
+        </div>
+
+        <div class="form-footer">
+          <button class="btn btn-ghost" onclick="goStep(3)">← Back</button>
+          <button class="btn btn-primary" id="submitBtn" onclick="submitListing()" style="padding:0.75rem 2rem;min-width:180px">
+            <span class="btn-txt">🚀 Publish Listing</span>
+            <span class="btn-spinner"></span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /addView -->
+
+</div><!-- /main -->
+
+<!-- Delete Modal -->
+<div class="modal-overlay" id="deleteModal">
+  <div class="modal-box">
+    <div class="modal-icon">🗑️</div>
+    <h3>Delete Listing?</h3>
+    <p>Ye listing permanently delete ho jaayegi. Ye action undo nahi hoga.</p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost"   onclick="closeModal()">Cancel</button>
+      <button class="btn btn-danger"  onclick="confirmDelete()">Delete</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toastEl"></div>
+
+<script>
+// ════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════
+let USER        = null;
+let MY_LISTINGS = [];
+let filterMode  = 'all';
+let deleteTargetId = null; // FIX: single variable (was declared twice)
+let currentStep = 1;
+
+let selCat   = 'Vehicles';
+let selEmoji = '🏍️';
+let selCond  = 'Brand New';
+let _editId  = null; // FIX: clean separate edit-ID tracker
+
+// ════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════
+function safe(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); }
+  catch(e) { return fallback; }
+}
+
+function showToast(msg, type = 'info', dur = 3500) {
+  const el = document.getElementById('toastEl');
+  el.className = `toast ${type} show`;
+  el.innerHTML = `<span>${type==='success'?'✅':type==='error'?'❌':'ℹ️'}</span>${msg}`;
+  clearTimeout(el._t);
+  el._t = setTimeout(() => el.classList.remove('show'), dur);
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+window.addEventListener('DOMContentLoaded', () => {
+  USER = safe('rv_current', null);
+  if (!USER) {
+    showToast('Please login first', 'error');
+    setTimeout(() => window.location.href = 'rentverse-signin.html', 1500);
+    return;
+  }
+  loadMyListings();
+  prefillContact();
+});
+
+function prefillContact() {
+  if (!USER) return;
+  const n = document.getElementById('fOwnerName');
+  const p = document.getElementById('fOwnerPhone');
+  if (n && USER.name)  n.value = USER.name;
+  if (p && USER.phone) p.value = USER.phone;
+}
+
+// ════════════════════════════════════════
+// LOAD & RENDER
+// ════════════════════════════════════════
+function loadMyListings() {
+  const all = safe('rv_listings', []);
+  MY_LISTINGS = all.filter(l => String(l.userId) === String(USER.id));
+  renderStats();
+  renderListings();
+  document.getElementById('myCount').textContent = MY_LISTINGS.length;
+}
+
+function renderStats() {
+  const active  = MY_LISTINGS.filter(l => l.status !== 'inactive').length;
+  const views   = MY_LISTINGS.reduce((s, l) => s + (l.views || 0), 0);
+  const bookings = safe('rv_bookings', []);
+  const earned  = bookings
+    .filter(b => String(b.ownerId) === String(USER.id) && b.paymentStatus === 'Paid')
+    .reduce((s, b) => s + (b.totalPrice || 0), 0);
+
+  document.getElementById('sTotal').textContent  = MY_LISTINGS.length;
+  document.getElementById('sActive').textContent = active;
+  document.getElementById('sViews').textContent  = views >= 1000 ? (views/1000).toFixed(1)+'k' : views;
+  document.getElementById('sEarned').textContent = earned >= 1000 ? '₹'+(earned/1000).toFixed(1)+'k' : '₹'+earned;
+  document.getElementById('listingSubtitle').textContent = `${MY_LISTINGS.length} listings · ${active} active`;
+}
+
+function renderListings() {
+  const grid  = document.getElementById('listingsGrid');
+  const query = (document.getElementById('searchInp')?.value || '').toLowerCase();
+
+  const filtered = MY_LISTINGS.filter(l => {
+    const matchF = filterMode === 'all'
+      || (filterMode === 'active'   && l.status !== 'inactive')
+      || (filterMode === 'inactive' && l.status === 'inactive');
+    const matchS = !query
+      || (l.title?.toLowerCase().includes(query))
+      || (l.cat?.toLowerCase().includes(query))
+      || (l.city?.toLowerCase().includes(query));
+    return matchF && matchS;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-icon">📋</div>
+        <h3>${MY_LISTINGS.length === 0 ? 'Koi listings nahi hain' : 'Koi match nahi mila'}</h3>
+        <p>${MY_LISTINGS.length === 0 ? 'Apna pehla item list karo aur rent karna shuru karo!' : 'Search ya filter change karo'}</p>
+        ${MY_LISTINGS.length === 0 ? '<button class="btn btn-primary" onclick="showAddForm()">＋ Add First Listing</button>' : ''}
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map((l, i) => `
+    <div class="listing-card" style="animation-delay:${i*0.05}s">
+      <div class="listing-card-img">
+        <span style="position:relative;z-index:1">${l.emoji || '📦'}</span>
+        <span class="listing-status-badge status-${l.status === 'inactive' ? 'inactive' : 'active'}">
+          ${l.status === 'inactive' ? '⏸ Inactive' : '● Active'}
+        </span>
+      </div>
+      <div class="listing-card-body">
+        <div class="listing-card-title">${escHtml(l.title || 'Untitled')}</div>
+        <div class="listing-card-cat">
+          <span>${escHtml(l.cat || '')}</span> · <span>📍${escHtml(l.city || '')}</span>
+          ${l.condition ? ` · <span>${escHtml(l.condition)}</span>` : ''}
+        </div>
+        <div class="listing-card-meta">
+          <div class="listing-price">₹${l.price || 0}<span>/day</span></div>
+          <div class="listing-views">👁 ${l.views || 0} views</div>
+        </div>
+        <div class="listing-card-actions">
+          <button class="btn btn-ghost btn-sm"  onclick="editListing('${l.id}')">✏️ Edit</button>
+          <button class="btn btn-ghost btn-sm"  onclick="toggleActive('${l.id}')">${l.status === 'inactive' ? '▶ Activate' : '⏸ Pause'}</button>
+          <button class="btn btn-danger btn-sm" onclick="askDelete('${l.id}')">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// XSS-safe escaping for rendered HTML
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function setFilter(f, el) {
+  filterMode = f;
+  document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  renderListings();
+}
+
+// ════════════════════════════════════════
+// LISTING ACTIONS
+// ════════════════════════════════════════
+function toggleActive(id) {
+  const all = safe('rv_listings', []);
+  const idx = all.findIndex(l => String(l.id) === String(id));
+  if (idx === -1) return;
+  all[idx].status = all[idx].status === 'inactive' ? 'active' : 'inactive';
+  localStorage.setItem('rv_listings', JSON.stringify(all));
+  loadMyListings();
+  showToast(`Listing ${all[idx].status === 'inactive' ? 'paused ⏸' : 'activated ✅'}!`, 'success');
+}
+
+function editListing(id) {
+  const l = MY_LISTINGS.find(l => String(l.id) === String(id));
+  if (!l) return;
+
+  document.getElementById('fTitle').value      = l.title || '';
+  document.getElementById('fDesc').value       = l.desc  || '';
+  document.getElementById('fPrice').value      = l.price || '';
+  document.getElementById('fPriceWeek').value  = l.priceWeek || '';
+  document.getElementById('fDeposit').value    = l.deposit   || '';
+  document.getElementById('fCity').value       = l.city      || '';
+  document.getElementById('fOwnerName').value  = l.ownerName  || '';
+  document.getElementById('fOwnerPhone').value = l.ownerPhone || '';
+
+  selCat   = l.cat       || 'Vehicles';
+  selEmoji = l.emoji     || '📦';
+  selCond  = l.condition || 'Good';
+
+  document.querySelectorAll('.cat-opt').forEach(o  => o.classList.toggle('sel', o.dataset.cat  === selCat));
+  document.querySelectorAll('.cond-opt').forEach(o => o.classList.toggle('sel', o.dataset.cond === selCond));
+
+  updatePreview();
+  updateCharCount();
+  calcPrices();
+  _editId = String(id);
+  showAddForm();
+  goStep(1, false);
+  showToast('Listing loaded for editing ✏️', 'info');
+}
+
+// FIX: renamed to askDelete to avoid conflict with inner variable names
+function askDelete(id) {
+  deleteTargetId = id;
+  document.getElementById('deleteModal').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('deleteModal').classList.remove('open');
+  deleteTargetId = null;
+}
+function confirmDelete() {
+  if (!deleteTargetId) return;
+  const all      = safe('rv_listings', []);
+  const filtered = all.filter(l => String(l.id) !== String(deleteTargetId));
+  localStorage.setItem('rv_listings', JSON.stringify(filtered));
+  closeModal();
+  loadMyListings();
+  showToast('Listing deleted 🗑️', 'success');
+}
+
+// ════════════════════════════════════════
+// VIEW SWITCHING
+// ════════════════════════════════════════
+function showView(view) {
+  const isAdd = view === 'add';
+  document.getElementById('myView').style.display  = isAdd ? 'none' : 'block';
+  document.getElementById('addView').style.display = isAdd ? 'block' : 'none';
+  document.getElementById('myListTab').classList.toggle('active', !isAdd);
+  document.getElementById('addListTab').classList.toggle('active',  isAdd);
+  document.getElementById('topTitle').textContent   = isAdd ? (_editId ? 'Edit Listing' : 'Add Listing') : 'My Listings';
+  document.getElementById('addNewBtn').style.display= isAdd ? 'none' : 'flex';
+
+  if (!isAdd) {
+    _editId = null;
+    goStep(1, false);
+  }
+}
+
+function showAddForm() { showView('add'); }
+
+// ════════════════════════════════════════
+// FORM STEPS — FIX: only sc1..sc3 exist (4 steps = 3 connectors)
+// ════════════════════════════════════════
+function goStep(n, doValidate = true) {
+  if (doValidate && n > currentStep && !validateStep(currentStep)) return;
+
+  for (let i = 1; i <= 4; i++) {
+    const sn    = document.getElementById(`sn${i}`);
+    const sl    = document.getElementById(`sl${i}`);
+    const panel = document.getElementById(`panel${i}`);
+    if (!sn || !sl || !panel) continue;
+
+    sn.className  = 'step-num' + (i < n ? ' done' : i === n ? ' active' : '');
+    sn.textContent = i < n ? '✓' : String(i);
+    sl.className  = 'step-label' + (i === n ? ' active' : '');
+    panel.className = 'form-panel' + (i === n ? ' active' : '');
+
+    // Connectors: sc1 between step1-2, sc2 between step2-3, sc3 between step3-4
+    // sc{i} marks whether the path from step-i to step-(i+1) is done
+    if (i <= 3) {
+      const conn = document.getElementById(`sc${i}`);
+      if (conn) conn.className = 'step-connector' + (i < n ? ' done' : '');
+    }
+  }
+  currentStep = n;
+  if (n === 4) buildReview();
+}
+
+function validateStep(n) {
+  if (n === 1) {
+    const title = document.getElementById('fTitle').value.trim();
+    const city  = document.getElementById('fCity').value;
+    if (!title || title.length < 3) {
+      showToast('Title minimum 3 characters likhna hai', 'error');
+      document.getElementById('fTitle').classList.add('err');
+      return false;
+    }
+    if (!city) { showToast('City select karo', 'error'); return false; }
+    document.getElementById('fTitle').classList.remove('err');
+    return true;
+  }
+  if (n === 2) {
+    const desc  = document.getElementById('fDesc').value.trim();
+    const name  = document.getElementById('fOwnerName').value.trim();
+    const phone = document.getElementById('fOwnerPhone').value.trim();
+    if (!desc  || desc.length < 10) { showToast('Description minimum 10 characters likhna hai', 'error'); return false; }
+    if (!name)                       { showToast('Contact name bharo', 'error'); return false; }
+    if (!/^[6-9]\d{9}$/.test(phone)){ showToast('Valid 10-digit phone number enter karo', 'error'); return false; }
+    return true;
+  }
+  if (n === 3) {
+    const price = parseFloat(document.getElementById('fPrice').value);
+    if (!price || price <= 0) {
+      showToast('Valid price enter karo (> 0)', 'error');
+      document.getElementById('fPrice').classList.add('err');
+      return false;
+    }
+    document.getElementById('fPrice').classList.remove('err');
+    return true;
+  }
+  return true;
+}
+
+// ════════════════════════════════════════
+// PICKERS
+// ════════════════════════════════════════
+function pickCat(el) {
+  document.querySelectorAll('.cat-opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  selCat   = el.dataset.cat;
+  selEmoji = el.dataset.emoji;
+  updatePreview();
+}
+function pickCond(el) {
+  document.querySelectorAll('.cond-opt').forEach(o => o.classList.remove('sel'));
+  el.classList.add('sel');
+  selCond = el.dataset.cond;
+}
+
+// ════════════════════════════════════════
+// LIVE PREVIEW & CALCS
+// ════════════════════════════════════════
+function updatePreview() {
+  const title = document.getElementById('fTitle')?.value || 'Item ka naam';
+  const city  = document.getElementById('fCity')?.value  || 'City';
+  const price = document.getElementById('fPrice')?.value || '0';
+  document.getElementById('previewEmoji').textContent = selEmoji;
+  document.getElementById('previewTitle').textContent = title || 'Item ka naam yahan aayega';
+  document.getElementById('previewMeta').textContent  = `${selCat} · ${city} · ₹${price}/day`;
+}
+
+function updateCharCount() {
+  const val = document.getElementById('fDesc')?.value || '';
+  const el  = document.getElementById('descCount');
+  if (!el) return;
+  el.textContent = `${val.length} / 500 characters`;
+  el.className   = 'hint' + (val.length > 500 ? ' error' : val.length >= 10 ? ' success' : '');
+}
+
+function validatePhone2() {
+  const val  = document.getElementById('fOwnerPhone').value;
+  const hint = document.getElementById('phoneHint2');
+  if (!hint) return;
+  if (val.length === 10 && /^[6-9]/.test(val)) {
+    hint.textContent = '✓ Valid number'; hint.className = 'hint success';
+  } else if (val.length > 0) {
+    hint.textContent = 'Valid Indian number enter karo'; hint.className = 'hint error';
+  } else {
+    hint.textContent = ''; hint.className = 'hint';
+  }
+}
+
+function calcPrices() {
+  const p = parseFloat(document.getElementById('fPrice')?.value) || 0;
+  document.getElementById('summaryDay').textContent = `₹${p}`;
+  document.getElementById('summ3').textContent      = `₹${p * 3}`;
+  document.getElementById('summ7').textContent      = `₹${p * 7}`;
+  document.getElementById('summ30').textContent     = `₹${p * 30}`;
+}
+
+function buildReview() {
+  document.getElementById('reviewEmoji').textContent = selEmoji;
+  document.getElementById('reviewTitle').textContent = document.getElementById('fTitle').value || '—';
+  document.getElementById('reviewCat').textContent   = `${selCat} · ${document.getElementById('fCity').value || '—'}`;
+  document.getElementById('reviewPrice').textContent = `₹${document.getElementById('fPrice').value || 0}`;
+  document.getElementById('reviewCity').textContent  = document.getElementById('fCity').value  || '—';
+  document.getElementById('reviewCond').textContent  = selCond;
+  document.getElementById('reviewDesc').textContent  = document.getElementById('fDesc').value  || '—';
+}
+
+// ════════════════════════════════════════
+// SUBMIT
+// ════════════════════════════════════════
+function submitListing() {
+  const title      = document.getElementById('fTitle').value.trim();
+  const desc       = document.getElementById('fDesc').value.trim();
+  const city       = document.getElementById('fCity').value;
+  const price      = parseFloat(document.getElementById('fPrice').value);
+  const ownerName  = document.getElementById('fOwnerName').value.trim();
+  const ownerPhone = document.getElementById('fOwnerPhone').value.trim();
+  const priceWeek  = parseFloat(document.getElementById('fPriceWeek').value) || 0;
+  const deposit    = parseFloat(document.getElementById('fDeposit').value)   || 0;
+  const minDays    = parseInt(document.getElementById('fMinDays').value)     || 1;
+  const avail      = document.getElementById('fAvail').value;
+
+  if (!title || !city || !price || price <= 0 || !desc || desc.length < 10) {
+    showToast('Sab required fields sahi se bharo', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('btn-loading');
+  btn.disabled = true;
+
+  setTimeout(() => {
+    const all    = safe('rv_listings', []);
+    const isEdit = !!_editId;
+    const now    = new Date().toLocaleDateString('en-IN');
+
+    const existing = isEdit ? all.find(l => String(l.id) === String(_editId)) : null;
+
+    const listing = {
+      id:          isEdit ? _editId : Date.now(),
+      userId:      USER.id,
+      title, desc, city, price, cat: selCat, emoji: selEmoji,
+      condition:   selCond,
+      ownerName,   ownerPhone,
+      priceWeek,   deposit, minDays, availability: avail,
+      views:       existing?.views   || 0,
+      createdAt:   existing?.createdAt || now,
+      status:      'active'
+    };
+
+    if (isEdit) {
+      const idx = all.findIndex(l => String(l.id) === String(_editId));
+      if (idx > -1) all[idx] = listing;
+      else all.unshift(listing); // fallback
+    } else {
+      all.unshift(listing);
+    }
+
+    localStorage.setItem('rv_listings', JSON.stringify(all));
+
+    btn.classList.remove('btn-loading');
+    btn.disabled = false;
+
+    showToast(isEdit ? '✅ Listing updated!' : '🚀 Listing published!', 'success', 4000);
+    _editId = null;
+    resetForm();
+    loadMyListings();
+    setTimeout(() => showView('my'), 1200);
+  }, 1500);
+}
+
+function resetForm() {
+  ['fTitle','fDesc','fPrice','fPriceWeek','fDeposit'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const cityEl = document.getElementById('fCity');
+  if (cityEl) cityEl.value = '';
+
+  selCat = 'Vehicles'; selEmoji = '🏍️'; selCond = 'Brand New';
+  document.querySelectorAll('.cat-opt').forEach((o, i)  => o.classList.toggle('sel', i === 0));
+  document.querySelectorAll('.cond-opt').forEach((o, i) => o.classList.toggle('sel', i === 0));
+
+  prefillContact();
+  updatePreview();
+  updateCharCount();
+  calcPrices();
+}
+</script>
+</body>
+</html>s
